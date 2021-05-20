@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7601586820728721685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 515437097293661020}
+  - component: {fileID: 4309360355878410556}
+  - component: {fileID: 6578461155154787847}
+  m_Layer: 0
+  m_Name: FindPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &515437097293661020
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7601586820728721685}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4309360355878410556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7601586820728721685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58455e7425e8a0746a2047721b87a516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: "\u5F98\u5F8A"
+  cost: 1
+  preconditions:
+  - Key: HasTarget
+    Value: 0
+  effects:
+  - Key: HasTarget
+    Value: 1
+  center: {fileID: 0}
+  range: 10
+  radius: 5
+  sector: 90
+  layer:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &6578461155154787847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7601586820728721685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19ea3493a42cb94ea6243ff4447bdbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionName: "\u8FFD\u9010"
+  cost: 1
+  preconditions:
+  - Key: HasTarget
+    Value: 1
+  - Key: InAttackRange
+    Value: 0
+  effects:
+  - Key: InAttackRange
+    Value: 1
+  targetMemoryKey: Target
+  stopDistance: 2
+  timeout: 10
