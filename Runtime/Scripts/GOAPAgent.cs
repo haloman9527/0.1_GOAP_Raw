@@ -19,11 +19,11 @@ using UnityEngine;
 
 namespace CZToolKit.GOAP_Raw
 {
+
     [AddComponentMenu("GOAP/GOAPAgent")]
     public class GOAPAgent : MonoBehaviour
     {
         #region 变量
-
         [SerializeField]
         [Space(10), Tooltip("要达成的目标")]
         List<GOAPGoal> goals = new List<GOAPGoal>();

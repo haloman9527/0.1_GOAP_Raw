@@ -1047,7 +1047,11 @@ MonoBehaviour:
     Value: 1
     Once: 0
     Priority: 0
-  preState: []
+  preState:
+  - Key: HasTarget
+    Value: 0
+  - Key: InAttackRange
+    Value: 0
   updateMode: 0
   maxDepth: 0
   interval: 3
@@ -1815,6 +1819,7 @@ GameObject:
   - component: {fileID: 1227599531}
   - component: {fileID: 1227599530}
   - component: {fileID: 1227599529}
+  - component: {fileID: 1227599533}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1896,6 +1901,72 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: -10.503, z: 0}
+--- !u!114 &1227599533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227599528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fa1a57e5ce73744ad44e7f38e4d284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gradient:
+    key0:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    key1:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    key2:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key3:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key4:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key5:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key6:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    key7:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  resolution: {x: 256, y: 8}
+  colorall: []
+  isAlpha: 0
+  tex2dName: AFX_Ramp
+  tex: {fileID: 0}
+  path: ">>\u8FD8\u672A\u9009\u62E9\u4FDD\u5B58\u8DEF\u5F84"
+  texname: AFX_Ramp
+  valueRampsource: 4
+  serial: 1
+  gaodus: []
 --- !u!1 &1297751118
 GameObject:
   m_ObjectHideFlags: 0
@@ -2265,7 +2336,9 @@ MonoBehaviour:
     Value: 1
     Once: 0
     Priority: 0
-  preState: []
+  preState:
+  - Key: LeaderFollow
+    Value: 0
   updateMode: 0
   maxDepth: 0
   interval: 3
@@ -3641,6 +3714,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 694413192328213229, guid: d43ec2c2db7cc324d9cb6ebb3e431708,
+        type: 3}
+      propertyPath: center
+      value: 
+      objectReference: {fileID: 604489998}
     - target: {fileID: 4309360355878410556, guid: d43ec2c2db7cc324d9cb6ebb3e431708,
         type: 3}
       propertyPath: center

@@ -21,14 +21,14 @@ namespace CZToolKit.GOAP_Raw
     [CustomEditor(typeof(GOAPAgent))]
     public class GOAPAgentEditor : BasicEditor
     {
-        GOAPAgent agent;
         SerializedProperty goalsProperty, preStateProperty;
         ReorderableList goalsReorderableList, preStateReorderableList;
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            agent = target as GOAPAgent;
+
+            GOAPAgent agent = target as GOAPAgent;
 
             goalsProperty = serializedObject.FindProperty("goals");
             goalsReorderableList = new ReorderableList(serializedObject, goalsProperty, true, false, true, true);
@@ -47,6 +47,7 @@ namespace CZToolKit.GOAP_Raw
         {
             base.RegisterDrawers();
 
+            GOAPAgent agent = target as GOAPAgent;
             RegisterDrawer("goals", property =>
             {
                 if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), EditorGUIExtension.GetGUIContent("Goals")))
