@@ -20,7 +20,7 @@ using UnityEngine;
 namespace CZToolKit.GOAP_Raw
 {
 
-    [AddComponentMenu("GOAP/GOAPAgent")]
+    [AddComponentMenu("GOAP/GOAP Agent")]
     public class GOAPAgent : MonoBehaviour
     {
         #region 变量
@@ -73,6 +73,8 @@ namespace CZToolKit.GOAP_Raw
         public bool HasPlan { get { return ActionQueue != null && ActionQueue.Count > 0; } }
         /// <summary> 下此搜寻计划的时间 </summary>
         public float NextPlanTime { get; set; } = 0;
+
+        public float DeltaTime { get; set; } = 0;
         #endregion
 
         protected virtual void Awake()
@@ -112,8 +114,8 @@ namespace CZToolKit.GOAP_Raw
                      // 搜寻计划
                      foreach (GOAPGoal goal in Goals)
                      {
-                         Planner.Plan(AvailableActions.ToArray(), States, goal, maxDepth, ref storedActionQueue);
-                         if (StoredActionQueue.Count == 0)
+                         Planner.Plan(AvailableActions, States, goal, maxDepth, ref storedActionQueue);
+                         if (StoredActionQueue.Count != 0)
                          {
                              CurrentGoal = goal;
                              break;
@@ -226,7 +228,8 @@ namespace CZToolKit.GOAP_Raw
 
         public void Evaluate(float _deltaTime)
         {
-            FSM.time += _deltaTime;
+            DeltaTime = _deltaTime;
+            FSM.time += DeltaTime;
             FSM.Update();
         }
 

@@ -64,8 +64,6 @@ namespace CZToolKit.GOAP_Raw
 
         public override bool IsUsable()
         {
-            //return Agent.States["HasTarget"] = false;
-            //Agent.SetState("HasTarget", Agent.Blackboard.TryGetData("Target", out GameObject go) && go != null);
             return !Agent.Memory.TryGetData("Target", out GameObject go) || go == null;
         }
 

@@ -20,7 +20,7 @@ namespace CZToolKit.GOAP_Raw.Editors
     public class AgentEditorWindow : BasicEditorWindow
     {
 
-        [MenuItem("Tools/CZToolKit/GraphGOAP")]
+        [MenuItem("Tools/CZToolKit/GOAP")]
         public static void Open()
         {
             AgentEditorWindow window = GetWindow<AgentEditorWindow>("Agent Debuger");

@@ -57,7 +57,7 @@ namespace CZToolKit.GOAP_Raw
 
         protected virtual void OnInitialized() { }
 
-        /// <summary> 是否行为是否可用(可重载) </summary>
+        /// <summary> 是否行为是否可用</summary>
         public virtual bool IsUsable() { return true; }
 
         /// <summary> 动态评估成本 </summary>
