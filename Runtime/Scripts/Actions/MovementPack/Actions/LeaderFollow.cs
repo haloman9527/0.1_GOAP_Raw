@@ -19,6 +19,7 @@ namespace CZToolKit.GOAP_Raw.Actions.Movement
     [AddComponentMenu("GOAP/Movement/LeaderFollow")]
     public class LeaderFollow : NavMeshGroupMovement
     {
+
         [Tooltip("Agents less than this distance apart are neighbors")]
         public float neighborDistance = 10;
         [Tooltip("How far behind the leader the agents should follow the leader")]

@@ -16,7 +16,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace CZToolKit.GOAP_Raw
+namespace CZToolKit.GOAP_Raw.Editors
 {
     [CustomEditor(typeof(GOAPAgent))]
     public class GOAPAgentEditor : BasicEditor

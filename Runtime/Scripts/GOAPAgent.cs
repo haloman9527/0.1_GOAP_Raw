@@ -19,7 +19,6 @@ using UnityEngine;
 
 namespace CZToolKit.GOAP_Raw
 {
-
     [AddComponentMenu("GOAP/GOAP Agent")]
     public class GOAPAgent : MonoBehaviour
     {
