@@ -17,19 +17,19 @@ using UnityEngine;
 
 namespace CZToolKit.GOAP_Raw.Editors
 {
-    public class AgentEditorWindow : BasicEditorWindow
+    public class GOAPDebugWindow : BasicEditorWindow
     {
 
-        [MenuItem("Tools/CZToolKit/GOAP")]
+        [MenuItem("Tools/CZToolKit/GOAP",priority = 1)]
         public static void Open()
         {
-            AgentEditorWindow window = GetWindow<AgentEditorWindow>("Agent Debuger");
+            GOAPDebugWindow window = GetWindow<GOAPDebugWindow>("Agent Debuger");
             window.position = new Rect(200, 200, 500, 700);
         }
 
-        static AgentEditorWindow instance;
+        static GOAPDebugWindow instance;
 
-        public static AgentEditorWindow Instance
+        public static GOAPDebugWindow Instance
         {
             get { return instance; }
             protected set { instance = value; }
