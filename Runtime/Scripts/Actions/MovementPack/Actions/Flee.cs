@@ -1,4 +1,19 @@
-#region ×¢ ÊÍ
+#region æ³¨ é‡Š
+/***
+ *
+ *  Title:
+ *  
+ *  Description:
+ *  
+ *  Date:
+ *  Version:
+ *  Writer: åŠåªé¾™è™¾äºº
+ *  Github: https://github.com/HalfLobsterMan
+ *  Blog: https://www.crosshair.top/
+ *
+ */
+#endregion
+#region ×¢ ï¿½ï¿½
 /***
  *
  *  Title:
@@ -28,7 +43,7 @@ namespace CZToolKit.GOAP_Raw.Actions.Movement
         private bool hasMoved;
         private void Reset()
         {
-            ActionName = "ÌÓÀë";
+            ActionName = "ï¿½ï¿½ï¿½ï¿½";
         }
 
         public override void OnPrePerform()

@@ -1,4 +1,19 @@
-#region ×¢ ÊÍ
+#region æ³¨ é‡Š
+/***
+ *
+ *  Title:
+ *  
+ *  Description:
+ *  
+ *  Date:
+ *  Version:
+ *  Writer: åŠåªé¾™è™¾äºº
+ *  Github: https://github.com/HalfLobsterMan
+ *  Blog: https://www.crosshair.top/
+ *
+ */
+#endregion
+#region ×¢ ï¿½ï¿½
 /***
  *
  *  Title:
@@ -15,7 +30,7 @@ using UnityEngine;
 
 namespace CZToolKit.GOAP_Raw.Actions.Movement
 {
-    //[NodeTooltip("ÑØÉè¶¨Â·¾¶Ñ²Âß£¬Ê¹ÓÃNavMeshÒÆ¶¯")]
+    //[NodeTooltip("ï¿½ï¿½ï¿½è¶¨Â·ï¿½ï¿½Ñ²ï¿½ß£ï¿½Ê¹ï¿½ï¿½NavMeshï¿½Æ¶ï¿½")]
     [AddComponentMenu("GOAP/Movement/Patrol")]
     public class Patrol : NavMeshMovement
     {
