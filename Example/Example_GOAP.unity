@@ -377,6 +377,76 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 82.48, z: 0}
+--- !u!1 &183063304
+GameObject:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 183063306}
+  - component: {fileID: 183063305}
+  m_Layer: 0
+  m_Name: UndoProRecords
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &183063305
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183063304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec064185206f494c8f61c85085d333a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  undoProRecords: []
+  undoState:
+    redoRecords: []
+    undoRecords:
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - Selection Change
+    - Selection Change
+    - Selection Change
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - Selection Change
+    - Selection Change
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+    - 'Change s on Seek: Collection modification'
+--- !u!4 &183063306
+Transform:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183063304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &230930455
 GameObject:
   m_ObjectHideFlags: 0
@@ -3652,6 +3722,11 @@ PrefabInstance:
       propertyPath: center
       value: 
       objectReference: {fileID: 604489998}
+    - target: {fileID: 2488084150555470845, guid: d43ec2c2db7cc324d9cb6ebb3e431708,
+        type: 3}
+      propertyPath: s.Array.size
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 4309360355878410556, guid: d43ec2c2db7cc324d9cb6ebb3e431708,
         type: 3}
       propertyPath: center

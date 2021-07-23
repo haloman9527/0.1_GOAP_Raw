@@ -18,13 +18,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
+
 namespace CZToolKit.GOAP_Raw
 {
+
     //[NodeTooltip("追逐敌人到一定距离后停下")]
     [AddComponentMenu("GOAP/SeekAction")]
     public class SeekAction : GOAPAction
     {
-
         public string targetMemoryKey = "Target";
         public float stopDistance = 2;
 
@@ -39,7 +40,6 @@ namespace CZToolKit.GOAP_Raw
         NavMeshAgent navMeshAgent;
         float startTime;
         AnimancerState state;
-
         public UnityAction onPrePerform { get; }
         public UnityAction onPerform { get; }
         public UnityAction onSuccess { get; }
@@ -69,7 +69,7 @@ namespace CZToolKit.GOAP_Raw
             navMeshAgent.isStopped = false;
             onPrePerform?.Invoke();
             Debug.Log("追逐");
-            state = anim.Play(animationClip,0.1f);
+            state = anim.Play(animationClip, 0.1f);
         }
 
         public override GOAPActionStatus OnPerform()
