@@ -65,12 +65,12 @@ namespace CZToolKit.GOAP_Raw.Editors
             GOAPAgent agent = target as GOAPAgent;
             RegisterDrawer("goals", property =>
             {
-                if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.GetGUIContent("Goals")))
+                if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.TextContent("Goals")))
                     goalsReorderableList.DoLayoutList();
             });
             RegisterDrawer("preState", property =>
             {
-                if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.GetGUIContent("PreStates")))
+                if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.TextContent("PreStates")))
                     preStateReorderableList.DoLayoutList();
             });
 
