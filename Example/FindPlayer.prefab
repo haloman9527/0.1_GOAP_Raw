@@ -56,6 +56,8 @@ MonoBehaviour:
   targetMemoryKey: Target
   stopDistance: 2
   timeout: 10
+  anim: {fileID: 0}
+  animationClip: {fileID: 0}
 --- !u!1 &7601586820728721685
 GameObject:
   m_ObjectHideFlags: 0
