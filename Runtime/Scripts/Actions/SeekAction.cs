@@ -13,7 +13,6 @@
  *
  */
 #endregion
-using Animancer;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -33,13 +32,9 @@ namespace CZToolKit.GOAP_Raw
         [Tooltip("超时将不再追击敌人")]
         public float timeout = 10;
 
-        public AnimancerComponent anim;
-        public AnimationClip animationClip;
-
         GameObject target;
         NavMeshAgent navMeshAgent;
         float startTime;
-        AnimancerState state;
         public UnityAction onPrePerform { get; }
         public UnityAction onPerform { get; }
         public UnityAction onSuccess { get; }
@@ -69,7 +64,6 @@ namespace CZToolKit.GOAP_Raw
             navMeshAgent.isStopped = false;
             onPrePerform?.Invoke();
             Debug.Log("追逐");
-            state = anim.Play(animationClip, 0.1f);
         }
 
         public override GOAPActionStatus OnPerform()
@@ -102,8 +96,6 @@ namespace CZToolKit.GOAP_Raw
                 Agent.SetState("HasTarget", false);
                 Agent.SetState("InAttackRange", false);
             }
-
-            anim.Stop(animationClip);
         }
     }
 }

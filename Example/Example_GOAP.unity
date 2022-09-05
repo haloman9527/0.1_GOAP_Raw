@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goals:
-  - Key: HasTarget
+  - Key: InAttackRange
     Value: 1
     Once: 0
     Priority: 0
@@ -3699,6 +3699,16 @@ PrefabInstance:
         type: 3}
       propertyPath: s.Array.size
       value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488084150555470845, guid: d43ec2c2db7cc324d9cb6ebb3e431708,
+        type: 3}
+      propertyPath: preconditions.Array.data[0].Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488084150555470845, guid: d43ec2c2db7cc324d9cb6ebb3e431708,
+        type: 3}
+      propertyPath: preconditions.Array.data[1].Value
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4309360355878410556, guid: d43ec2c2db7cc324d9cb6ebb3e431708,
         type: 3}
