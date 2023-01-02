@@ -14,9 +14,9 @@
  */
 #endregion
 using CZToolKit.Core;
-using CZToolKit.Core.Blackboards;
 using System.Collections.Generic;
 using System.Linq;
+using CZToolKit.GraphProcessor;
 using UnityEngine;
 
 namespace CZToolKit.GOAP_Raw
@@ -59,7 +59,7 @@ namespace CZToolKit.GOAP_Raw
         public GOAPFSM FSM { get; private set; }
         public GOAPPlanner Planner { get; private set; }
         public GOAPAction[] AvailableActions { get; private set; }
-        public Dictionary<string, ICZType> Memory { get; private set; } = new Dictionary<string, ICZType>();
+        public Blackboard Memory { get; private set; } = new Blackboard();
         public List<GOAPGoal> Goals { get { return goals; } private set { goals = value; } }
         public Dictionary<string, bool> States { get; private set; }
         /// <summary> 当前计划 </summary>

@@ -66,7 +66,7 @@ namespace CZToolKit.GOAP_Raw
 
         public override bool IsUsable()
         {
-            return !Agent.Memory.TryGetData("Target", out GameObject go) || go == null;
+            return !Agent.Memory.TryGet("Target", out GameObject go) || go == null;
         }
 
         Vector3 targetPos;
@@ -104,7 +104,7 @@ namespace CZToolKit.GOAP_Raw
                 {
                     if (Vector3.Angle(Agent.transform.forward, item.transform.position - Agent.transform.position) <= sector / 2)
                     {
-                        Agent.Memory.SetData("Target", item.gameObject);
+                        Agent.Memory.Set("Target", item.gameObject);
                         return GOAPActionStatus.Success;
                     }
                 }
