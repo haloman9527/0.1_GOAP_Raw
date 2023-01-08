@@ -26,7 +26,7 @@
  *
  */
 #endregion
-using CZToolKit.Core.Editors;
+using CZToolKit.Common.Editors;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
