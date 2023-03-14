@@ -1,4 +1,5 @@
 #region 注 释
+
 /***
  *
  *  Title:
@@ -12,7 +13,9 @@
  *  Blog: https://www.crosshair.top/
  *
  */
+
 #endregion
+
 using System.Collections.Generic;
 using CZToolKit.Common.ObjectPool;
 
@@ -21,7 +24,8 @@ namespace CZToolKit.GOAP_Raw
     public class GOAPPlanner
     {
         /// <summary> 节点对象池，节点对象重复利用 </summary>
-        private GOAPNodePool NodePool { get; } = new GOAPNodePool(32);
+        private GOAPNodePool NodePool { get; } = new GOAPNodePool();
+
         private StackPool<GOAPAction> Stack_Pool { get; } = new StackPool<GOAPAction>();
         private DictionaryPool<string, bool> DictionaryObjPool { get; } = new DictionaryPool<string, bool>();
 
@@ -30,7 +34,10 @@ namespace CZToolKit.GOAP_Raw
         List<GOAPNode> leaves = new List<GOAPNode>();
         List<GOAPAction> usableActions = new List<GOAPAction>();
 
-        public GOAPNode CheapestNode { get { return cheapestNode; } }
+        public GOAPNode CheapestNode
+        {
+            get { return cheapestNode; }
+        }
 
         /// <summary> 定制最优计划 </summary>
         /// <param name="_agent">代理</param>
@@ -43,7 +50,7 @@ namespace CZToolKit.GOAP_Raw
             if (_currentStates.TryGetValue(_goal.Key, out bool value) && value.Equals(_goal.Value))
                 return;
 
-            NodePool.Dispose();
+            NodePool.Release();
 
             // 所有可用的行为
             usableActions.Clear();
@@ -95,11 +102,12 @@ namespace CZToolKit.GOAP_Raw
                 {
                     _plan.Enqueue(goapActionStack.Pop());
                 }
-                Stack_Pool.Release(goapActionStack);
+
+                Stack_Pool.Recycle(goapActionStack);
             }
 
             // 用完回收所有对象
-            DictionaryObjPool.Dispose();
+            DictionaryObjPool.Release();
         }
 
         /// <summary> 构建树并返回所有计划 </summary>
@@ -190,7 +198,9 @@ namespace CZToolKit.GOAP_Raw
             /// <summary> 运行到此节点时的当前状态 </summary>
             public Dictionary<string, bool> state;
 
-            public GOAPNode() { }
+            public GOAPNode()
+            {
+            }
 
             public GOAPNode(GOAPNode _parent, float _runningCost, Dictionary<string, bool> _state, GOAPAction _action)
             {
@@ -203,16 +213,17 @@ namespace CZToolKit.GOAP_Raw
 
         public class GOAPNodePool : ObjectPool<GOAPNode>
         {
-            public GOAPNodePool(int capacity) : base(capacity)
+            protected override GOAPNode Generate()
             {
-                base.createFunction = () => new GOAPNode();
-                base.onRelease = (unit) =>
-                {
-                    unit.parent = null;
-                    unit.runningCost = 0;
-                    unit.state = null;
-                    unit.action = null;
-                };
+                return new GOAPNode();
+            }
+
+            protected override void OnRecycle(GOAPNode unit)
+            {
+                unit.parent = null;
+                unit.runningCost = 0;
+                unit.state = null;
+                unit.action = null;
             }
 
             public GOAPNode Spawn(GOAPNode parent, float runningCost, Dictionary<string, bool> state, GOAPAction action)
@@ -228,19 +239,27 @@ namespace CZToolKit.GOAP_Raw
 
         public class DictionaryPool<K, V> : ObjectPool<Dictionary<K, V>>
         {
-            public DictionaryPool() : base()
+            protected override Dictionary<K, V> Generate()
             {
-                base.createFunction = () => new Dictionary<K, V>();
-                base.onRelease = (unit) => unit.Clear();
+                return new Dictionary<K, V>();
+            }
+
+            protected override void OnRecycle(Dictionary<K, V> unit)
+            {
+                unit.Clear();
             }
         }
 
         public class StackPool<T> : ObjectPool<Stack<T>>
         {
-            public StackPool() : base()
+            protected override Stack<T> Generate()
             {
-                base.createFunction = () => new Stack<T>(8);
-                base.onRelease = (unit) => unit.Clear();
+                return new Stack<T>(8);
+            }
+
+            protected override void OnRecycle(Stack<T> unit)
+            {
+                unit.Clear();
             }
         }
     }
