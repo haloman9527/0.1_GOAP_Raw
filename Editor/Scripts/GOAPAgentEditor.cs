@@ -21,17 +21,13 @@ using UnityEngine;
 namespace CZToolKit.GOAP_Raw.Editors
 {
     [CustomEditor(typeof(GOAPAgent))]
-    public class GOAPAgentEditor : BasicEditor
+    public class GOAPAgentEditor : BaseEditor
     {
         SerializedProperty goalsProperty, preStateProperty;
         ReorderableList goalsReorderableList, preStateReorderableList;
-
-        protected override void OnEnable()
+        
+        void OnEnable()
         {
-            base.OnEnable();
-
-            GOAPAgent agent = target as GOAPAgent;
-
             goalsProperty = serializedObject.FindProperty("goals");
             goalsReorderableList = new ReorderableList(serializedObject, goalsProperty, true, false, true, true);
             goalsReorderableList.headerHeight = 3;
@@ -45,22 +41,29 @@ namespace CZToolKit.GOAP_Raw.Editors
             preStateReorderableList.drawElementCallback += (a, b, c, d) => DrawElement(a, b, c, d, preStateProperty);
         }
 
-        protected override void RegisterDrawers()
+        protected override void OnPropertyGUI(SerializedProperty property)
         {
-            base.RegisterDrawers();
-
             GOAPAgent agent = target as GOAPAgent;
-            RegisterDrawer("goals", property =>
+            switch (property.propertyPath)
             {
-                if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.TextContent("Goals")))
-                    goalsReorderableList.DoLayoutList();
-            });
-            RegisterDrawer("preState", property =>
-            {
-                if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.TextContent("PreStates")))
-                    preStateReorderableList.DoLayoutList();
-            });
-
+                case "goals":
+                {
+                    if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.TextContent("Goals")))
+                        goalsReorderableList.DoLayoutList();
+                    break;
+                }
+                case "preState":
+                {
+                    if (EditorGUILayoutExtension.DrawFoldout(agent.GetHashCode(), GUIHelper.TextContent("PreStates")))
+                        preStateReorderableList.DoLayoutList();
+                    break;
+                }
+                default:
+                {
+                    base.OnPropertyGUI(property);
+                    break;
+                }
+            }
         }
 
         public override void OnInspectorGUI()

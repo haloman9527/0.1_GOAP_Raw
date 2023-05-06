@@ -19,7 +19,7 @@ using UnityEngine;
 
 namespace CZToolKit.GOAP_Raw.Editors
 {
-    public class GOAPDebugWindow : BasicEditorWindow
+    public class GOAPDebugWindow : BaseEditorWindow
     {
 
         [MenuItem("Tools/CZToolKit/GOAP",priority = 1)]
