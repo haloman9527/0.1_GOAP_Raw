@@ -17,7 +17,7 @@
 #endregion
 
 using System.Collections.Generic;
-using CZToolKit.Common.ObjectPool;
+using CZToolKit.ObjectPool;
 
 namespace CZToolKit.GOAP_Raw
 {

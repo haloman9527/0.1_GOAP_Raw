@@ -13,7 +13,7 @@
  *
  */
 #endregion
-using CZToolKit.Common.IMGUI;
+using CZToolKitEditor;
 using UnityEditor;
 using UnityEngine;
 
