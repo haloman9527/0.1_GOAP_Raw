@@ -75,7 +75,7 @@ namespace CZToolKit.GOAP_Raw
             // 如果通过构建节点树找到了能够达成目标的计划
             if (BuildGraph(root, usableActions, _goal, 0, _maxDepth, leaves))
             {
-                Stack<GOAPAction> goapActionStack = Stack_Pool.Spawn();
+                Stack<GOAPAction> goapActionStack = Stack_Pool.Acquire();
 
                 foreach (GOAPNode leaf in leaves)
                 {
@@ -103,7 +103,7 @@ namespace CZToolKit.GOAP_Raw
                     _plan.Enqueue(goapActionStack.Pop());
                 }
 
-                Stack_Pool.Recycle(goapActionStack);
+                Stack_Pool.Release(goapActionStack);
             }
 
             // 用完回收所有对象
@@ -151,7 +151,7 @@ namespace CZToolKit.GOAP_Raw
         /// <param name="_effects">行为效果</param>
         private Dictionary<string, bool> PopulateState(Dictionary<string, bool> _currentStates, List<GOAPState> _effects)
         {
-            Dictionary<string, bool> newStates = DictionaryObjPool.Spawn();
+            Dictionary<string, bool> newStates = DictionaryObjPool.Acquire();
             newStates.Clear();
             foreach (var state in _currentStates)
             {
@@ -218,7 +218,7 @@ namespace CZToolKit.GOAP_Raw
                 return new GOAPNode();
             }
 
-            protected override void OnRecycle(GOAPNode unit)
+            protected override void OnRelease(GOAPNode unit)
             {
                 unit.parent = null;
                 unit.runningCost = 0;
@@ -228,7 +228,7 @@ namespace CZToolKit.GOAP_Raw
 
             public GOAPNode Spawn(GOAPNode parent, float runningCost, Dictionary<string, bool> state, GOAPAction action)
             {
-                GOAPNode unit = base.Spawn();
+                GOAPNode unit = base.Acquire();
                 unit.parent = parent;
                 unit.runningCost = runningCost;
                 unit.state = state;
@@ -244,7 +244,7 @@ namespace CZToolKit.GOAP_Raw
                 return new Dictionary<K, V>();
             }
 
-            protected override void OnRecycle(Dictionary<K, V> unit)
+            protected override void OnRelease(Dictionary<K, V> unit)
             {
                 unit.Clear();
             }
@@ -257,7 +257,7 @@ namespace CZToolKit.GOAP_Raw
                 return new Stack<T>(8);
             }
 
-            protected override void OnRecycle(Stack<T> unit)
+            protected override void OnRelease(Stack<T> unit)
             {
                 unit.Clear();
             }
