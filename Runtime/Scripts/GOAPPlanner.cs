@@ -17,7 +17,6 @@
 #endregion
 
 using System.Collections.Generic;
-using CZToolKit.ObjectPool;
 
 namespace CZToolKit.GOAP_Raw
 {
@@ -211,7 +210,7 @@ namespace CZToolKit.GOAP_Raw
             }
         }
 
-        public class GOAPNodePool : ObjectPool<GOAPNode>
+        public class GOAPNodePool : BaseObjectPool<GOAPNode>
         {
             protected override GOAPNode Create()
             {
@@ -237,7 +236,7 @@ namespace CZToolKit.GOAP_Raw
             }
         }
 
-        public class DictionaryPool<K, V> : ObjectPool<Dictionary<K, V>>
+        public class DictionaryPool<K, V> : BaseObjectPool<Dictionary<K, V>>
         {
             protected override Dictionary<K, V> Create()
             {
@@ -250,7 +249,7 @@ namespace CZToolKit.GOAP_Raw
             }
         }
 
-        public class StackPool<T> : ObjectPool<Stack<T>>
+        public class StackPool<T> : BaseObjectPool<Stack<T>>
         {
             protected override Stack<T> Create()
             {
