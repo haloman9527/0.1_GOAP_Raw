@@ -8,7 +8,7 @@
  *  Date:
  *  Version:
  *  Writer: 半只龙虾人
- *  Github: https://github.com/HalfLobsterMan
+ *  Github: https://github.com/haloman9527
  *  Blog: https://www.mindgear.net/
  *
  */
@@ -136,9 +136,9 @@ namespace CZToolKit.GOAP_Raw.Editors
                         foreach (var action in agent.StoredActionQueue)
                         {
                             if (agent.CurrentAction == action)
-                                GUILayout.Label($"{action.ActionName}-->", "BoldLabel");
+                                GUILayout.Label($"{action.Name}-->", "BoldLabel");
                             else
-                                GUILayout.Label($"{action.ActionName}-->");
+                                GUILayout.Label($"{action.Name}-->");
                         }
                     }
                     else
@@ -155,16 +155,15 @@ namespace CZToolKit.GOAP_Raw.Editors
                     GUILayout.Label("Precondtions", (GUIStyle)"dockareaStandalone", GUILayout.Width(f));
                     GUILayout.Label("Cost", (GUIStyle)"dockareaStandalone", GUILayout.Width(f));
                     GUILayout.EndHorizontal();
-                    for (int i = 0; i < agent.AvailableActions.Length; i++)
+                    for (int i = 0; i < agent.Planner.Actions.Length; i++)
                     {
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label(agent.AvailableActions[i].GetType().Name, (GUIStyle)"dockareaStandalone", GUILayout.Width(f));
-                        GUILayout.Toggle(agent.CurrentAction == agent.AvailableActions[i], "", GUILayout.Width(f));
-                        GUILayout.Toggle(agent.CurrentAction == agent.AvailableActions[i], "", GUILayout.Width(f));
-                        GUILayout.Label(agent.AvailableActions[i].cost.ToString(), (GUIStyle)"dockareaStandalone", GUILayout.Width(f));
+                        GUILayout.Label(agent.Planner.Actions[i].GetType().Name, (GUIStyle)"dockareaStandalone", GUILayout.Width(f));
+                        GUILayout.Toggle(agent.CurrentAction == agent.Planner.Actions[i], "", GUILayout.Width(f));
+                        GUILayout.Toggle(agent.CurrentAction == agent.Planner.Actions[i], "", GUILayout.Width(f));
+                        GUILayout.Label(agent.Planner.Actions[i].Cost.ToString(), (GUIStyle)"dockareaStandalone", GUILayout.Width(f));
                         GUILayout.EndHorizontal();
                     }
-
 
                     GUILayout.Space(20);
                     GUILayout.Label("World State(Agent状态)", ACBoldHeader, GUILayout.ExpandWidth(true));

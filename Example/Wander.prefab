@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8829520914517552639}
-  - component: {fileID: 599498489665388989}
   m_Layer: 0
   m_Name: Wander
   m_TagString: Untagged
@@ -31,32 +30,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &599498489665388989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2226771072783703505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b89ff3d2ab05904394546ec7bd7b9ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionName: "\u5F98\u5F8A"
-  cost: 1
-  preconditions: []
-  effects:
-  - Key: "\u5F98\u5F8A"
-    Value: 1
-  speed: 10
-  angularSpeed: 120
-  arriveDistance: 0.2
-  stopOnTaskEnd: 1
-  updateRotation: 1
-  minWanderDistance: 20
-  maxWanderDistance: 20
-  wanderRate: 2
-  minPauseDuration: 0
-  maxPauseDuration: 0
-  targetRetries: 1
