@@ -26,7 +26,7 @@ namespace CZToolKit.GOAP_Raw
 {
     //[NodeTooltip("追逐敌人到一定距离后停下")]
     [AddComponentMenu("GOAP/SeekAction")]
-    public class SeekActionBridge : IGOAPActionBridge
+    public class SeekActionBridge : MonoBehaviour, IGOAPActionBridge
     {
         public SeekActionData data = new SeekActionData();
 

@@ -24,8 +24,8 @@ namespace CZToolKit.GOAP_Raw.Editors
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.indentLevel++;
-            var key = property.FindPropertyRelative("Key");
-            var value = property.FindPropertyRelative("Value");
+            var key = property.FindPropertyRelative(nameof(GOAPState.key));
+            var value = property.FindPropertyRelative(nameof(GOAPState.value));
             GUI.Box(position, "");
             float width = position.width;
 

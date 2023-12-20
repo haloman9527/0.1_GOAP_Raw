@@ -14,21 +14,22 @@
  */
 #endregion
 using System;
+using UnityEngine.Serialization;
 
 namespace CZToolKit.GOAP_Raw
 {
     [Serializable]
     public class GOAPState
     {
-        public string Key = "None";
-        public bool Value;
+        public string key = "None";
+        public bool value;
 
         public GOAPState() { }
 
         public GOAPState(string key, bool value)
         {
-            Key = key;
-            Value = value;
+            this.key = key;
+            this.value = value;
         }
     }
 }

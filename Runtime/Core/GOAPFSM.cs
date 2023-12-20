@@ -86,4 +86,29 @@ namespace CZToolKit.GOAP_Raw
             //await Task.Run(onExit);
         }
     }
+
+    public class PerformState : GOAPFSMState
+    {
+        public PerformState(GOAPFSM owner) : base(owner)
+        {
+        }
+
+        public override void OnBegin()
+        {
+            //await Task.Run(onStart);
+            onStart?.Invoke();
+        }
+
+        public override void OnUpdate()
+        {
+            onUpdate.Invoke();
+            //await Task.Run(onUpdate);
+        }
+
+        public override void OnEnd()
+        {
+            onExit?.Invoke();
+            //await Task.Run(onExit);
+        }
+    }
 }

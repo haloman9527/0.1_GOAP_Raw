@@ -43,22 +43,31 @@ namespace CZToolKit.GOAP_Raw
         [Tooltip("计划最大深度，<1无限制")] public int maxDepth = 0;
 
         /// <summary> 两次搜索计划之间的间隔 </summary>
-        [Min(0), Tooltip("两次搜索计划之间的间隔")] public float interval = 3;
-
-        /// <summary> 计划异常终止是否要重置间隔 </summary>
-        [Tooltip("计划异常终止是否立即重新搜寻计划")] public bool replanOnFailed = true;
-
+        [Tooltip("两次搜索计划之间的间隔")] public float interval = 3;
 
         private GOAPFSM fsm;
         private GOAPMachine planner;
         private Dictionary<string, bool> states;
         private Blackboard<string> memory = new Blackboard<string>();
+        private GOAPGoal currentGoal;
+        private GOAPAction currentAction;
         private Queue<GOAPAction> storedActionQueue;
         private Queue<GOAPAction> actionQueue;
+        private GoalComparer goalsComparer;
 
         #endregion
 
         #region 公共属性
+
+        public List<GOAPGoal> Goals
+        {
+            get { return goals; }
+        }
+
+        public Dictionary<string, bool> States
+        {
+            get { return states; }
+        }
 
         public GOAPFSM FSM
         {
@@ -75,42 +84,38 @@ namespace CZToolKit.GOAP_Raw
             get { return memory; }
         }
 
-        public List<GOAPGoal> Goals
-        {
-            get { return goals; }
-        }
-
-        public Dictionary<string, bool> States
-        {
-            get { return states; }
-        }
-
         /// <summary> 当前计划 </summary>
         public IReadOnlyCollection<GOAPAction> StoredActionQueue
         {
             get { return storedActionQueue; }
         }
 
-        /// <summary> 当前行为队列 </summary>
+        /// <summary> 当前剩余行为队列 </summary>
         public IReadOnlyCollection<GOAPAction> ActionQueue
         {
             get { return actionQueue; }
         }
 
         /// <summary> 当前行为 </summary>
-        public GOAPAction CurrentAction { get; private set; }
+        public GOAPAction CurrentAction
+        {
+            get { return currentAction; }
+        }
 
         /// <summary> 当前目的，没有为空 </summary>
-        public GOAPGoal CurrentGoal { get; private set; }
+        public GOAPGoal CurrentGoal
+        {
+            get { return currentGoal; }
+        }
 
         public bool HasGoal
         {
-            get { return CurrentGoal != null; }
+            get { return currentGoal != null; }
         }
 
         public bool HasPlan
         {
-            get { return ActionQueue != null && ActionQueue.Count > 0; }
+            get { return actionQueue != null && actionQueue.Count > 0; }
         }
 
         /// <summary> 下此搜寻计划的时间 </summary>
@@ -132,14 +137,15 @@ namespace CZToolKit.GOAP_Raw
             states = new Dictionary<string, bool>();
             foreach (var state in initialStates)
             {
-                states[state.Key] = state.Value;
+                states[state.key] = state.value;
             }
 
+            goalsComparer = new GoalComparer();
             fsm = new GOAPFSM();
             fsm.Init(this);
             planner = new GOAPMachine();
             planner.Init(this, actions);
-            goals.QuickSort((a, b) => a.Priority.CompareTo(b.Priority));
+            goals.QuickSort((a, b) => a.priority.CompareTo(b.priority));
             storedActionQueue = new Queue<GOAPAction>();
             actionQueue = new Queue<GOAPAction>();
         }
@@ -152,16 +158,16 @@ namespace CZToolKit.GOAP_Raw
                 onExit = () => { }
             };
             idleState.onUpdate = IdleUpdate;
+            FSM.PushState("IdleState", idleState);
 
-            var performActionState = new GOAPFSMState(FSM)
+            var performActionState = new PerformState(FSM)
             {
                 onStart = () => { },
                 onExit = () => { }
             };
             performActionState.onUpdate = PerformUpdate;
-
-            FSM.PushState("IdleState", idleState);
             FSM.PushState("PerformActionState", performActionState);
+
             FSM.JumpTo("IdleState");
         }
 
@@ -169,31 +175,29 @@ namespace CZToolKit.GOAP_Raw
         {
             if (NextPlanTime > FSM.time) return;
 
-            NextPlanTime = FSM.time + interval;
-
+            NextPlanTime = FSM.time + Mathf.Max(interval, 0);
+            goals.QuickSort(goalsComparer);
+            var finalGoal = (GOAPGoal)null;
             // 搜寻计划
             foreach (var goal in goals)
             {
                 planner.Plan(goal, maxDepth, ref storedActionQueue);
                 if (storedActionQueue.Count != 0)
                 {
-                    CurrentGoal = goal;
+                    finalGoal = goal;
                     break;
                 }
             }
 
             if (storedActionQueue.Count > 0)
             {
+                currentGoal = finalGoal;
                 actionQueue.Clear();
                 foreach (var action in storedActionQueue)
                     actionQueue.Enqueue(action);
 
                 //转换状态
                 FSM.JumpTo("PerformActionState");
-            }
-            else
-            {
-                CurrentGoal = null;
             }
         }
 
@@ -203,13 +207,12 @@ namespace CZToolKit.GOAP_Raw
             {
                 // 如果当前有计划(目标尚未完成)
                 var action = actionQueue.Peek();
-                if (CurrentAction != action)
+                if (currentAction != action)
                 {
-                    CurrentAction = action;
+                    currentAction = action;
                     action.OnBeforePerform();
                 }
 
-                Debug.Log(action == null);
                 // 成功 or 失败
                 var status = action.OnPerform();
 
@@ -224,30 +227,25 @@ namespace CZToolKit.GOAP_Raw
 
                         action.OnAfterPerform(true);
                         actionQueue.Dequeue();
-                        CurrentAction = null;
                         break;
                     }
                     case GOAPActionStatus.Failure:
                     {
-                        if (replanOnFailed)
-                            EnforceReplan();
-                        else
-                            AbortPlan();
+                        AbortPlan();
                         return;
                     }
-                    default:
-                        break;
                 }
             }
             else
             {
                 // 如果没有计划(目标已完成)
                 // 如果目标为一次性，移除掉
-                if (CurrentGoal != null && CurrentGoal.Once)
-                    Goals.Remove(CurrentGoal);
+                if (currentGoal != null && currentGoal.once)
+                    Goals.Remove(currentGoal);
 
                 // 当前目标设置为空
-                CurrentGoal = null;
+                currentGoal = null;
+                currentAction = null;
                 FSM.JumpTo("IdleState");
             }
         }
@@ -281,14 +279,10 @@ namespace CZToolKit.GOAP_Raw
         /// <summary> 终止计划(在<see cref="interval"/>之后才会重新搜寻计划) </summary>
         public void AbortPlan()
         {
-            if (HasPlan)
-                actionQueue.Clear();
-
-            if (CurrentAction != null)
-                CurrentAction.OnAfterPerform(false);
-
-            CurrentAction = null;
-            CurrentGoal = null;
+            currentAction?.OnAfterPerform(false);
+            currentGoal = null;
+            currentAction = null;
+            actionQueue?.Clear();
             FSM.JumpTo("IdleState");
         }
 
@@ -297,7 +291,6 @@ namespace CZToolKit.GOAP_Raw
         {
             AbortPlan();
             NextPlanTime = Time.time;
-            FSM.Update();
         }
 
         public virtual bool GetState(string _key, bool _fallback = false)
@@ -323,6 +316,14 @@ namespace CZToolKit.GOAP_Raw
         private void OnDrawGizmos()
         {
             Gizmos.DrawIcon(transform.position, "GOAP/GOAP_Scene_Icon.png", true);
+        }
+
+        public class GoalComparer : IComparer<GOAPGoal>
+        {
+            public int Compare(GOAPGoal x, GOAPGoal y)
+            {
+                return -(x.priority.CompareTo(y.priority));
+            }
         }
     }
 }

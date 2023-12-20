@@ -25,10 +25,10 @@ namespace CZToolKit.GOAP_Raw.Editors
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var key = property.FindPropertyRelative("Key");
-            var value = property.FindPropertyRelative("Value");
-            var once = property.FindPropertyRelative("Once");
-            var priority = property.FindPropertyRelative("Priority");
+            var key = property.FindPropertyRelative(nameof(GOAPGoal.key));
+            var value = property.FindPropertyRelative(nameof(GOAPGoal.value));
+            var once = property.FindPropertyRelative(nameof(GOAPGoal.once));
+            var priority = property.FindPropertyRelative(nameof(GOAPGoal.priority));
 
 
             EditorGUI.indentLevel++;
@@ -50,8 +50,8 @@ namespace CZToolKit.GOAP_Raw.Editors
             position.x += position.width - 10;
             position.width = 120;
             float lableWidth = EditorGUIUtility.labelWidth;
-            EditorGUIUtility.labelWidth = 75;
-            priority.floatValue = EditorGUI.FloatField(position, new GUIContent("Priority", "优先级，越高越先执行"), priority.floatValue);
+            EditorGUIUtility.labelWidth = 65;
+            priority.intValue = EditorGUI.IntField(position, new GUIContent("Priority", "优先级，越高越先执行"), priority.intValue);
             EditorGUIUtility.labelWidth = lableWidth;
 
             EditorGUI.indentLevel--;

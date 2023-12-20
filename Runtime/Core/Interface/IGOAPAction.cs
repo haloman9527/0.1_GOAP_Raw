@@ -13,7 +13,6 @@
  *
  */
 #endregion
-using System.Collections.Generic;
 
 namespace CZToolKit.GOAP_Raw
 {
@@ -21,11 +20,7 @@ namespace CZToolKit.GOAP_Raw
     {
         string Name { get; }
 
-        bool IsUsable();
-
         void DynamicallyEvaluateCost();
-
-        bool IsProceduralPrecondition(Dictionary<string, bool> currentState);
 
         void OnBeforePerform();
 

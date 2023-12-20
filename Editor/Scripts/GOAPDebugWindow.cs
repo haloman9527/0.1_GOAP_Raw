@@ -102,11 +102,6 @@ namespace CZToolKit.GOAP_Raw.Editors
             Repaint();
         }
 
-        private void DrawOverview()
-        {
-
-        }
-
         private void DrawRuntime()
         {
             if (EditorApplication.isPlaying)
@@ -120,8 +115,8 @@ namespace CZToolKit.GOAP_Raw.Editors
                     GUILayout.BeginHorizontal();
                     if (agent.HasGoal)
                     {
-                        GUILayout.Label(agent.CurrentGoal.Key);
-                        GUILayout.Toggle(agent.CurrentGoal.Value, "");
+                        GUILayout.Label(agent.CurrentGoal.key);
+                        GUILayout.Toggle(agent.CurrentGoal.value, "");
                     }
                     else
                         GUILayout.Label("Haven't Goal");

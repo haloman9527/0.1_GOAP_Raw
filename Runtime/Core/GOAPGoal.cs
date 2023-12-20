@@ -18,9 +18,11 @@ using System;
 namespace CZToolKit.GOAP_Raw
 {
     [Serializable]
-    public class GOAPGoal : GOAPState
+    public class GOAPGoal
     {
-        public bool Once;
-        public float Priority;
+        public string key = "None";
+        public bool value;
+        public bool once;
+        public int priority;
     }
 }

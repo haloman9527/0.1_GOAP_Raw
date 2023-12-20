@@ -17,7 +17,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using CZToolKit.VM;
 using UnityEngine;
 using UnityEngine.AI;
@@ -188,27 +187,17 @@ namespace CZToolKit.GOAP_Raw
             navMeshAgent = ((GOAPAgent)Agent).GetComponent<NavMeshAgent>();
         }
 
-        public override bool IsProceduralPrecondition(Dictionary<string, bool> currentState)
-        {
-            return base.IsProceduralPrecondition(currentState);
-        }
-
-        public override bool IsUsable()
-        {
-            return !Agent.Memory.TryGet("Target", out GameObject go) || go == null;
-        }
-
         Vector3 targetPos;
         float stayTime;
 
         public override void OnBeforePerform()
         {
+            Debug.Log("徘徊");
             targetPos = UnityRandom.insideUnitSphere * Range + Center.transform.position;
             targetPos.y = 0;
             stayTime = UnityRandom.Range(2, 5);
             navMeshAgent.stoppingDistance = 0;
             navMeshAgent.isStopped = false;
-            Debug.Log("徘徊");
         }
 
         public override GOAPActionStatus OnPerform()

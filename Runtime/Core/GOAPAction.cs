@@ -44,6 +44,7 @@ namespace CZToolKit.GOAP_Raw
         private GOAPMachine owner;
         private Dictionary<string, bool> preconditions;
         private Dictionary<string, bool> effects;
+        private float runtimeCost;
 
         [Tooltip("进入行为时触发")] public Action onEnter;
 
@@ -58,8 +59,8 @@ namespace CZToolKit.GOAP_Raw
         /// <summary> 行为的执行成本 </summary>
         public float Cost
         {
-            get { return GetPropertyValue<float>(nameof(GOAPActionData.initialCost)); }
-            set { SetPropertyValue(nameof(GOAPActionData.initialCost), value); }
+            get { return runtimeCost; }
+            set { runtimeCost = value; }
         }
 
         /// <summary> 执行此行为的前提条件 </summary>
@@ -88,18 +89,18 @@ namespace CZToolKit.GOAP_Raw
         public GOAPAction(GOAPActionData data)
         {
             this[nameof(GOAPActionData.name)] = new BindableProperty<string>(() => data.name, v => data.name = v);
-            this[nameof(GOAPActionData.initialCost)] = new BindableProperty<float>(() => data.initialCost, v => data.initialCost = v);
+            this.runtimeCost = data.initialCost;
             this.preconditions = new Dictionary<string, bool>();
             this.effects = new Dictionary<string, bool>();
 
             foreach (var pair in data.preconditions)
             {
-                this.preconditions[pair.Key] = pair.Value;
+                this.preconditions[pair.key] = pair.value;
             }
 
             foreach (var pair in data.effects)
             {
-                this.effects[pair.Key] = pair.Value;
+                this.effects[pair.key] = pair.value;
             }
         }
 
@@ -113,21 +114,9 @@ namespace CZToolKit.GOAP_Raw
         {
         }
 
-        /// <summary> 是否行为是否可用</summary>
-        public virtual bool IsUsable()
-        {
-            return true;
-        }
-
         /// <summary> 动态评估成本 </summary>
         public virtual void DynamicallyEvaluateCost()
         {
-        }
-
-        /// <summary> 匹配计划过程中检查能否执行(应用计划执行过程中会导致的状态改变) </summary>
-        public virtual bool IsProceduralPrecondition(Dictionary<string, bool> currentState)
-        {
-            return true;
         }
 
         public virtual void OnBeforePerform()
