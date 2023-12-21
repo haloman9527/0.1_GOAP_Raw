@@ -114,7 +114,18 @@ namespace CZToolKit.GOAP_Raw
         {
         }
 
-        /// <summary> 动态评估成本 </summary>
+        /// <summary>
+        /// 当确定成功或者失败时，调用此方法
+        /// </summary>
+        /// <param name="success"></param>
+        protected void SelfStop(bool success)
+        {
+            
+        }
+
+        /// <summary>
+        /// 每次规划计划时，都会调用此方法，用于动态评估成本
+        /// </summary>
         public virtual void DynamicallyEvaluateCost()
         {
         }
@@ -127,30 +138,6 @@ namespace CZToolKit.GOAP_Raw
 
         public virtual void OnAfterPerform(bool _successed)
         {
-        }
-
-        /// <summary> 添加一条前提条件 </summary>
-        public void SetPrecondition(string key, bool value)
-        {
-            Preconditions[key] = value;
-        }
-
-        /// <summary> 移除一条前提条件 </summary>
-        public void RemovePrecondition(string key)
-        {
-            Preconditions.Remove(key);
-        }
-
-        /// <summary> 添加一条效果 </summary>
-        public void SetEffect(string key, bool value)
-        {
-            Effects[key] = value;
-        }
-
-        /// <summary> 移除一条效果 </summary>
-        public void RemoveEffect(string key)
-        {
-            Effects.Remove(key);
         }
     }
 }

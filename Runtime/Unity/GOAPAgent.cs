@@ -32,11 +32,10 @@ namespace CZToolKit.GOAP_Raw
     {
         #region 变量
 
-        [Space(10), Tooltip("要达成的目标")] public List<GOAPGoal> goals = new List<GOAPGoal>();
+        [Tooltip("要达成的目标")] public List<GOAPGoal> goals = new List<GOAPGoal>();
 
         [Tooltip("状态预设")] public List<GOAPState> initialStates = new List<GOAPState>();
 
-        /// <summary> 计划最大深度，<1无限制 </summary>
         [Space(10), Header("Settings")] [SerializeField]
         UpdateMode updateMode = UpdateMode.Normal;
 
