@@ -80,7 +80,7 @@ namespace CZToolKit.GOAP_Raw
             }
 
             // 向上遍历并添加行为到栈中，直至根节点，因为从后向前遍历
-            var goapActionStack = Stack_Pool.Acquire();
+            var goapActionStack = Stack_Pool.Spawn();
             while (cheapestNode != null && cheapestNode != treeRoot)
             {
                 goapActionStack.Push(cheapestNode.action);
@@ -94,13 +94,13 @@ namespace CZToolKit.GOAP_Raw
             }
 
             // 回收栈
-            Stack_Pool.Release(goapActionStack);
+            Stack_Pool.Recycle(goapActionStack);
 
             // 回收节点
             for (int i = 0; i < enumrateBuffer.Count; i++)
             {
                 var node = enumrateBuffer[i];
-                NodePool.Release(node);
+                NodePool.Recycle(node);
             }
         }
 
@@ -229,7 +229,7 @@ namespace CZToolKit.GOAP_Raw
 
         public GOAPNode Acquire(GOAPNode parent, float runningCost, Dictionary<string, bool> state, GOAPAction action)
         {
-            var unit = base.Acquire();
+            var unit = base.Spawn();
             unit.parent = parent;
             unit.runningCost = runningCost;
             foreach (var pair in state)
