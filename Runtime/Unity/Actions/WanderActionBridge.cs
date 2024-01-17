@@ -17,7 +17,7 @@
 #endregion
 
 using System;
-using CZToolKit.VM;
+using CZToolKit;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;

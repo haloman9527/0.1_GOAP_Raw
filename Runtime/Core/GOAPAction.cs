@@ -18,7 +18,7 @@
 
 using System;
 using System.Collections.Generic;
-using CZToolKit.VM;
+using CZToolKit;
 using UnityEngine;
 
 namespace CZToolKit.GOAP_Raw
