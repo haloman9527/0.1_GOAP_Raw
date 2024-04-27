@@ -218,7 +218,7 @@ namespace CZToolKit.GOAP_Raw
             return new GOAPNode();
         }
 
-        protected override void OnRelease(GOAPNode unit)
+        protected override void OnRecycle(GOAPNode unit)
         {
             unit.parent = null;
             unit.children.Clear();
@@ -250,7 +250,7 @@ namespace CZToolKit.GOAP_Raw
             return new Stack<T>(8);
         }
 
-        protected override void OnRelease(Stack<T> unit)
+        protected override void OnRecycle(Stack<T> unit)
         {
             unit.Clear();
         }
