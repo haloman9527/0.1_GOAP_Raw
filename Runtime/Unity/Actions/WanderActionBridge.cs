@@ -3,9 +3,9 @@
 /***
  *
  *  Title:
- *  
+ *
  *  Description:
- *  
+ *
  *  Date:
  *  Version:
  *  Writer: 半只龙虾人
@@ -168,11 +168,11 @@ namespace CZToolKit.GOAP_Raw
 
         public WanderAction(WanderActionData data) : base(data)
         {
-            this[nameof(WanderActionData.center)] = new BindableProperty<GameObject>(() => data.center, v => data.center = v);
-            this[nameof(WanderActionData.range)] = new BindableProperty<float>(() => data.range, v => data.range = v);
-            this[nameof(WanderActionData.radius)] = new BindableProperty<float>(() => data.radius, v => data.radius = v);
-            this[nameof(WanderActionData.sector)] = new BindableProperty<float>(() => data.sector, v => data.sector = v);
-            this[nameof(WanderActionData.layer)] = new BindableProperty<LayerMask>(() => data.layer, v => data.layer = v);
+            this.RegisterProperty(nameof(WanderActionData.center), new BindableProperty<GameObject>(() => data.center, v => data.center = v));
+            this.RegisterProperty(nameof(WanderActionData.range), new BindableProperty<float>(() => data.range, v => data.range = v));
+            this.RegisterProperty(nameof(WanderActionData.radius), new BindableProperty<float>(() => data.radius, v => data.radius = v));
+            this.RegisterProperty(nameof(WanderActionData.sector), new BindableProperty<float>(() => data.sector, v => data.sector = v));
+            this.RegisterProperty(nameof(WanderActionData.layer), new BindableProperty<LayerMask>(() => data.layer, v => data.layer = v));
         }
 
 

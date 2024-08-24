@@ -88,7 +88,7 @@ namespace CZToolKit.GOAP_Raw
 
         public GOAPAction(GOAPActionData data)
         {
-            this[nameof(GOAPActionData.name)] = new BindableProperty<string>(() => data.name, v => data.name = v);
+            this.RegisterProperty(nameof(GOAPActionData.name), new BindableProperty<string>(() => data.name, v => data.name = v));
             this.runtimeCost = data.initialCost;
             this.preconditions = new Dictionary<string, bool>();
             this.effects = new Dictionary<string, bool>();
