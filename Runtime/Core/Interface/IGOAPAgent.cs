@@ -4,11 +4,15 @@ using CZToolKit.Blackboard;
 namespace CZToolKit.GOAP_Raw
 {
     public interface IGOAPAgent
-    { 
+    {
+        List<IGOAPAction> Actions { get; }
+        
         Dictionary<string, bool> States { get; }
+        
+        List<IGOAPSensor> Sensors { get; }
 
         Blackboard<string> Memory { get; }
-
-        void SetState(string key, bool value);
+        
+        List<GOAPGoal> Goals { get; }
     }
 }

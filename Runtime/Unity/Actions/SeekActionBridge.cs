@@ -37,7 +37,6 @@ namespace CZToolKit.GOAP_Raw
 
         private void Reset()
         {
-            data.name = "追逐";
             data.initialCost = 1;
             data.preconditions.Add(new GOAPState("HasTarget", true));
             data.preconditions.Add(new GOAPState("InAttackRange", false));

@@ -39,7 +39,7 @@ namespace CZToolKit.GOAP_Raw
         [Tooltip("行为可以造成的效果")] public List<GOAPState> effects = new List<GOAPState>();
     }
 
-    public abstract class GOAPAction : ViewModel, IGOAPAction
+    public abstract class GOAPAction : ViewModel, IGOAPAction 
     {
         private GOAPMachine owner;
         private Dictionary<string, bool> preconditions;
@@ -49,12 +49,6 @@ namespace CZToolKit.GOAP_Raw
         [Tooltip("进入行为时触发")] public Action onEnter;
 
         [Tooltip("退出行为时触发")] public Action onExit;
-
-        public string Name
-        {
-            get { return GetPropertyValue<string>(nameof(GOAPActionData.name)); }
-            set { SetPropertyValue(nameof(GOAPActionData.name), value); }
-        }
 
         /// <summary> 行为的执行成本 </summary>
         public float Cost
@@ -75,20 +69,12 @@ namespace CZToolKit.GOAP_Raw
             get { return effects; }
         }
 
-        public GOAPMachine Owner
-        {
-            get { return owner; }
-        }
-
         /// <summary> 行为所属代理 </summary>
-        public IGOAPAgent Agent
-        {
-            get { return owner.Agent; }
-        }
+        public IGOAPAgent Agent { get; private set; }
+        
 
         public GOAPAction(GOAPActionData data)
         {
-            this.RegisterProperty(nameof(GOAPActionData.name), new BindableProperty<string>(() => data.name, v => data.name = v));
             this.runtimeCost = data.initialCost;
             this.preconditions = new Dictionary<string, bool>();
             this.effects = new Dictionary<string, bool>();
@@ -104,9 +90,9 @@ namespace CZToolKit.GOAP_Raw
             }
         }
 
-        public void Init(GOAPMachine owner)
+        public void Init(GOAPAgent agent)
         {
-            this.owner = owner;
+            this.Agent = agent;
             OnInitialized();
         }
 

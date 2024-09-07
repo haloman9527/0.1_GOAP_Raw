@@ -18,7 +18,6 @@ namespace CZToolKit.GOAP_Raw
 {
     public interface IGOAPAction
     {
-        string Name { get; }
 
         void DynamicallyEvaluateCost();
 

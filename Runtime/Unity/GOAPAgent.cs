@@ -28,7 +28,7 @@ using UnityEngine.UIElements;
 namespace CZToolKit.GOAP_Raw
 {
     [AddComponentMenu("GOAP/GOAP Agent")]
-    public class GOAPAgent : MonoBehaviour, IGOAPAgent, IFSMAgent
+    public class UnityGOAPAgent : MonoBehaviour
     {
         #region 变量
 
@@ -52,7 +52,6 @@ namespace CZToolKit.GOAP_Raw
         private GOAPAction currentAction;
         private Queue<GOAPAction> storedActionQueue;
         private Queue<GOAPAction> actionQueue;
-        private GoalComparer goalsComparer;
 
         #endregion
 
@@ -143,7 +142,7 @@ namespace CZToolKit.GOAP_Raw
             fsm = new GOAPFSM();
             fsm.Init(this);
             planner = new GOAPMachine();
-            planner.Init(this, actions);
+            planner.Init(this);
             goals.QuickSort((a, b) => a.priority.CompareTo(b.priority));
             storedActionQueue = new Queue<GOAPAction>();
             actionQueue = new Queue<GOAPAction>();
@@ -175,7 +174,7 @@ namespace CZToolKit.GOAP_Raw
             if (NextPlanTime > FSM.time) return;
 
             NextPlanTime = FSM.time + Mathf.Max(interval, 0);
-            goals.QuickSort(goalsComparer);
+            goals.QuickSort(GoalComparer.Default);
             var finalGoal = (GOAPGoal)null;
             // 搜寻计划
             foreach (var goal in goals)
@@ -319,6 +318,8 @@ namespace CZToolKit.GOAP_Raw
 
         public class GoalComparer : IComparer<GOAPGoal>
         {
+            public static GoalComparer Default { get; } = new GoalComparer();
+            
             public int Compare(GOAPGoal x, GOAPGoal y)
             {
                 return -(x.priority.CompareTo(y.priority));

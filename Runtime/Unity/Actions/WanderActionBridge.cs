@@ -37,7 +37,6 @@ namespace CZToolKit.GOAP_Raw
 
         private void Reset()
         {
-            data.name = "徘徊";
             data.preconditions.Add(new GOAPState("HasTarget", false));
             data.effects.Add(new GOAPState("HasTarget", true));
         }
