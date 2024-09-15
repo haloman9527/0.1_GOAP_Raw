@@ -26,13 +26,13 @@ namespace CZToolKit.GOAP_Raw
 {
     //[NodeTooltip("追逐敌人到一定距离后停下")]
     [AddComponentMenu("GOAP/SeekAction")]
-    public class SeekActionBridge : MonoBehaviour, IGOAPActionBridge
+    public class SeekActionBridge : MonoBehaviour, IGOAPActionPrivider
     {
         public SeekActionData data = new SeekActionData();
 
-        public GOAPActionData GetGoapActionData()
+        public IGOAPAction GetGoapAction()
         {
-            return data;
+            return new SeekAction(data);
         }
 
         private void Reset()
@@ -59,7 +59,6 @@ namespace CZToolKit.GOAP_Raw
         private GameObject target;
         private NavMeshAgent navMeshAgent;
         private float startTime;
-
 
         public UnityAction onPrePerform { get; }
         public UnityAction onPerform { get; }
@@ -91,10 +90,12 @@ namespace CZToolKit.GOAP_Raw
 
         protected override void OnInitialized()
         {
-            navMeshAgent = ((GOAPAgent)Agent).GetComponent<NavMeshAgent>();
+            // navMeshAgent = ((GOAPAgent)Agent).GetComponent<NavMeshAgent>();
         }
 
-        public override void OnBeforePerform()
+        public override bool IsRequiredRange => false;
+
+        public override void Enter()
         {
             Agent.Memory.TryGet(TargetMemoryKey, out target);
             startTime = Time.time;
@@ -105,7 +106,7 @@ namespace CZToolKit.GOAP_Raw
             Debug.Log("追逐");
         }
 
-        public override GOAPActionStatus OnPerform()
+        public override GOAPActionStatus Perform()
         {
             if (target == null || !target.activeSelf || Time.time - startTime > Timeout)
             {
@@ -113,30 +114,30 @@ namespace CZToolKit.GOAP_Raw
                 return GOAPActionStatus.Failure;
             }
 
-            if (Vector3.Distance(((GOAPAgent)Agent).transform.position, target.transform.position) <= StopDistance)
-            {
-                return GOAPActionStatus.Success;
-            }
+            // if (Vector3.Distance(((GOAPAgent)Agent).transform.position, target.transform.position) <= StopDistance)
+            // {
+            //     return GOAPActionStatus.Success;
+            // }
 
             navMeshAgent.destination = target.transform.position;
             onPerform?.Invoke();
             return GOAPActionStatus.Running;
         }
 
-        public override void OnAfterPerform(bool _successed)
+        public override void Exit()
         {
             navMeshAgent.isStopped = true;
-            if (_successed)
-            {
-                onSuccess?.Invoke();
-            }
-            else
-            {
-                onFailed?.Invoke();
-                Agent.Memory.Set<GameObject>(TargetMemoryKey, null);
-                Agent.SetState("HasTarget", false);
-                Agent.SetState("InAttackRange", false);
-            }
+            // if (_successed)
+            // {
+            //     onSuccess?.Invoke();
+            // }
+            // else
+            // {
+            //     onFailed?.Invoke();
+            //     Agent.Memory.Set<GameObject>(TargetMemoryKey, null);
+            //     Agent.SetState("HasTarget", false);
+            //     Agent.SetState("InAttackRange", false);
+            // }
         }
     }
 }

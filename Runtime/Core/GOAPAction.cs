@@ -3,9 +3,9 @@
 /***
  *
  *  Title:
- *  
+ *
  *  Description:
- *  
+ *
  *  Date:
  *  Version:
  *  Writer: 半只龙虾人
@@ -39,43 +39,28 @@ namespace CZToolKit.GOAP_Raw
         [Tooltip("行为可以造成的效果")] public List<GOAPState> effects = new List<GOAPState>();
     }
 
-    public abstract class GOAPAction : ViewModel, IGOAPAction 
+    public abstract class GOAPAction : ViewModel, IGOAPAction
     {
-        private GOAPMachine owner;
         private Dictionary<string, bool> preconditions;
         private Dictionary<string, bool> effects;
-        private float runtimeCost;
-
-        [Tooltip("进入行为时触发")] public Action onEnter;
-
-        [Tooltip("退出行为时触发")] public Action onExit;
 
         /// <summary> 行为的执行成本 </summary>
-        public float Cost
-        {
-            get { return runtimeCost; }
-            set { runtimeCost = value; }
-        }
+        public float Cost { get; protected set; }
 
         /// <summary> 执行此行为的前提条件 </summary>
-        public Dictionary<string, bool> Preconditions
-        {
-            get { return preconditions; }
-        }
+        public IReadOnlyDictionary<string, bool> Preconditions => preconditions;
 
         /// <summary> 此技能对世界状态造成的修改 </summary>
-        public Dictionary<string, bool> Effects
-        {
-            get { return effects; }
-        }
+        public IReadOnlyDictionary<string, bool> Effects => effects;
+
+        public abstract bool IsRequiredRange { get; }
 
         /// <summary> 行为所属代理 </summary>
         public IGOAPAgent Agent { get; private set; }
-        
 
         public GOAPAction(GOAPActionData data)
         {
-            this.runtimeCost = data.initialCost;
+            this.Cost = data.initialCost;
             this.preconditions = new Dictionary<string, bool>();
             this.effects = new Dictionary<string, bool>();
 
@@ -90,40 +75,49 @@ namespace CZToolKit.GOAP_Raw
             }
         }
 
-        public void Init(GOAPAgent agent)
+        public void Init(IGOAPAgent agent)
         {
             this.Agent = agent;
-            OnInitialized();
+            this.OnInitialized();
         }
 
         protected virtual void OnInitialized()
         {
         }
 
-        /// <summary>
-        /// 当确定成功或者失败时，调用此方法
-        /// </summary>
-        /// <param name="success"></param>
-        protected void SelfStop(bool success)
+        public virtual bool IsUsable()
         {
-            
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// 每次规划计划时，都会调用此方法，用于动态评估成本
         /// </summary>
-        public virtual void DynamicallyEvaluateCost()
+        public virtual void EvaluateCost()
         {
         }
 
-        public virtual void OnBeforePerform()
+        public virtual bool IsDynamicUseable()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool IsInRange()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Enter()
         {
         }
 
-        public abstract GOAPActionStatus OnPerform();
-
-        public virtual void OnAfterPerform(bool _successed)
+        public virtual void Exit()
         {
+        }
+
+        public virtual GOAPActionStatus Perform()
+        {
+            throw new NotImplementedException();
         }
     }
 }

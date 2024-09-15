@@ -26,13 +26,13 @@ using UnityRandom = UnityEngine.Random;
 namespace CZToolKit.GOAP_Raw
 {
     [AddComponentMenu("GOAP/WanderAction")]
-    public class WanderActionBridge : MonoBehaviour, IGOAPActionBridge
+    public class WanderActionBridge : MonoBehaviour, IGOAPActionPrivider
     {
         public WanderActionData data = new WanderActionData();
 
-        public GOAPActionData GetGoapActionData()
+        public IGOAPAction GetGoapAction()
         {
-            return data;
+            return new WanderAction(data);
         }
 
         private void Reset()
@@ -183,13 +183,15 @@ namespace CZToolKit.GOAP_Raw
 
         protected override void OnInitialized()
         {
-            navMeshAgent = ((GOAPAgent)Agent).GetComponent<NavMeshAgent>();
+            // navMeshAgent = ((GOAPAgent)Agent).GetComponent<NavMeshAgent>();
         }
 
         Vector3 targetPos;
         float stayTime;
 
-        public override void OnBeforePerform()
+        public override bool IsRequiredRange => false;
+
+        public override void Enter()
         {
             Debug.Log("徘徊");
             targetPos = UnityRandom.insideUnitSphere * Range + Center.transform.position;
@@ -199,45 +201,45 @@ namespace CZToolKit.GOAP_Raw
             navMeshAgent.isStopped = false;
         }
 
-        public override GOAPActionStatus OnPerform()
+        public override GOAPActionStatus Perform()
         {
-            if (Vector3.Distance(targetPos, ((GOAPAgent)Agent).transform.position) <= 2)
-            {
-                stayTime -= Time.deltaTime;
-                if (stayTime <= 0)
-                {
-                    onRefindTarget?.Invoke();
-                    targetPos = UnityRandom.insideUnitSphere * Range + Center.transform.position;
-                    targetPos.y = 0;
-                    stayTime = UnityRandom.Range(2, 5);
-                }
-            }
-
-            navMeshAgent.SetDestination(targetPos);
-
-            Collider[] colliders = Physics.OverlapSphere(((GOAPAgent)Agent).transform.position, Radius, Layer);
-            if (colliders.Length > 0)
-            {
-                foreach (var item in colliders)
-                {
-                    if (Vector3.Angle(((GOAPAgent)Agent).transform.forward, item.transform.position - ((GOAPAgent)Agent).transform.position) <= Sector / 2)
-                    {
-                        Agent.Memory.Set("Target", item.gameObject);
-                        return GOAPActionStatus.Success;
-                    }
-                }
-            }
+            // if (Vector3.Distance(targetPos, ((GOAPAgent)Agent).transform.position) <= 2)
+            // {
+            //     stayTime -= Time.deltaTime;
+            //     if (stayTime <= 0)
+            //     {
+            //         onRefindTarget?.Invoke();
+            //         targetPos = UnityRandom.insideUnitSphere * Range + Center.transform.position;
+            //         targetPos.y = 0;
+            //         stayTime = UnityRandom.Range(2, 5);
+            //     }
+            // }
+            //
+            // navMeshAgent.SetDestination(targetPos);
+            //
+            // Collider[] colliders = Physics.OverlapSphere(((GOAPAgent)Agent).transform.position, Radius, Layer);
+            // if (colliders.Length > 0)
+            // {
+            //     foreach (var item in colliders)
+            //     {
+            //         if (Vector3.Angle(((GOAPAgent)Agent).transform.forward, item.transform.position - ((GOAPAgent)Agent).transform.position) <= Sector / 2)
+            //         {
+            //             Agent.Memory.Set("Target", item.gameObject);
+            //             return GOAPActionStatus.Success;
+            //         }
+            //     }
+            // }
 
             return GOAPActionStatus.Running;
         }
 
-        public override void OnAfterPerform(bool _successed)
+        public override void Exit()
         {
             navMeshAgent.isStopped = true;
-            if (_successed)
-                Agent.SetState("HasTarget", true);
-            else
-                Agent.SetState("HasTarget", false);
+            // if (_successed)
+            //     Agent.SetState("HasTarget", true);
+            // else
+            //     Agent.SetState("HasTarget", false);
         }
     }
 }

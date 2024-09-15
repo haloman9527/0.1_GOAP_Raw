@@ -20,37 +20,42 @@ using System.Collections.Generic;
 
 namespace CZToolKit.GOAP_Raw
 {
-    public class GOAPMachine
+    public static class GOAPPlanner
     {
         /// <summary> 定制最优计划 </summary>
         /// <param name="agent"></param>
         /// <param name="goal"> 目标状态，想要达到的状态</param>
         /// <param name="maxDepth"> </param>
         /// <param name="plan"> 返回一个计划 </param>
-        public static bool Plan(IGOAPAgent agent, GOAPGoal goal, int maxDepth, in Queue<GOAPAction> plan)
+        public static bool Plan(IGOAPAgent agent, IGOAPGoal goal, int maxDepth, in Queue<IGOAPAction> plan)
         {
             plan.Clear();
-            if (agent.States.TryGetValue(goal.key, out bool value) && value.Equals(goal.value))
+            if (GOAPHelper.IsAchieve(agent.States, goal.Preconditions))
+            {
                 return true;
+            }
+
             var enumrateBuffer = ObjectPools.Instance.Spawn<List<GOAPNode>>();
             foreach (var action in agent.Actions)
             {
-                action.DynamicallyEvaluateCost();
+                action.EvaluateCost();
             }
 
-
             // 如果通过构建节点树找到了能够达成目标的计划
-            var treeRoot = BuildGraph(agent, goal, maxDepth);
+            var root = BuildGraph(agent, goal, maxDepth);
 
             // 成本最低的计划节点
             var cheapestNode = (GOAPNode)null;
-            treeRoot.DFS(enumrateBuffer);
+            root.DFS(enumrateBuffer);
             for (int i = 0; i < enumrateBuffer.Count; i++)
             {
                 var node = enumrateBuffer[i];
                 if (node.children.Count > 0)
+                {
                     continue;
-                if (node.state.TryGetValue(goal.key, out bool v) && v == goal.value)
+                }
+
+                if (GOAPHelper.IsAchieve(agent.States, goal.Preconditions))
                 {
                     if (cheapestNode == null)
                         cheapestNode = node;
@@ -60,8 +65,8 @@ namespace CZToolKit.GOAP_Raw
             }
 
             // 向上遍历并添加行为到栈中，直至根节点，因为从后向前遍历
-            var goapActionStack = ObjectPools.Instance.Spawn<Stack<GOAPAction>>();
-            while (cheapestNode != null && cheapestNode != treeRoot)
+            var goapActionStack = ObjectPools.Instance.Spawn<Stack<IGOAPAction>>();
+            while (cheapestNode != null && cheapestNode != root)
             {
                 goapActionStack.Push(cheapestNode.action);
                 cheapestNode = cheapestNode.parent;
@@ -90,28 +95,37 @@ namespace CZToolKit.GOAP_Raw
         /// <param name="goal">目标计划</param>
         /// <param name="maxDepth">构建的树的最大深度</param>
         /// <returns>是否找到计划</returns>
-        private static GOAPNode BuildGraph(IGOAPAgent agent, GOAPGoal goal, int maxDepth)
+        private static GOAPNode BuildGraph(IGOAPAgent agent, IGOAPGoal goal, int maxDepth)
         {
             var root = ObjectPools.Instance.Spawn<GOAPNode>();
             root.Init(null, 0, agent.States, null);
             if (maxDepth < 1)
+            {
                 return root;
+            }
+
             InnerBuilderGraph(root, 0);
             return root;
 
             void InnerBuilderGraph(GOAPNode parent, int depth)
             {
                 if (depth > maxDepth)
+                {
                     return;
+                }
 
                 foreach (var action in agent.Actions)
                 {
                     // 不允许出现两个连续的相同行为
                     if (parent == null || action == parent.action)
+                    {
                         continue;
+                    }
 
-                    if (!IsAchieve(parent.state, action.Preconditions))
+                    if (!GOAPHelper.IsAchieve(parent.state, action.Preconditions))
+                    {
                         continue;
+                    }
 
                     // 生成动作完成的节点链，成本累加
                     var node = ObjectPools.Instance.Spawn<GOAPNode>();
@@ -122,27 +136,12 @@ namespace CZToolKit.GOAP_Raw
                     }
 
                     // 如果当前状态不能达成目标，继续构建树
-                    if (!node.state.TryGetValue(goal.key, out bool value) || value != goal.value)
+                    if (!GOAPHelper.IsAchieve(node.state, goal.Preconditions))
+                    {
                         InnerBuilderGraph(node, ++depth);
+                    }
                 }
             }
-        }
-
-        /// <summary> l是否达成r，r包含l </summary>
-        public static bool IsAchieve(Dictionary<string, bool> l, Dictionary<string, bool> r)
-        {
-            if (r.Count == 0)
-                return true;
-
-            foreach (var pair in r)
-            {
-                if (!l.TryGetValue(pair.Key, out bool value) && pair.Value)
-                    return false;
-                if (pair.Value != value)
-                    return false;
-            }
-
-            return true;
         }
     }
 
@@ -156,12 +155,12 @@ namespace CZToolKit.GOAP_Raw
         public float runningCost;
 
         /// <summary> 此节点代表的行为 </summary>
-        public GOAPAction action;
+        public IGOAPAction action;
 
         /// <summary> 模拟运行到此节点时的状态 </summary>
         public Dictionary<string, bool> state = new Dictionary<string, bool>();
 
-        public void Init(GOAPNode parent, float runningCost, Dictionary<string, bool> state, GOAPAction action)
+        public void Init(GOAPNode parent, float runningCost, Dictionary<string, bool> state, IGOAPAction action)
         {
             this.parent = parent;
             this.runningCost = runningCost;
