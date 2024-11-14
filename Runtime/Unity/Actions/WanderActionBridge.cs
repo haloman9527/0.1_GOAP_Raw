@@ -142,38 +142,32 @@ namespace CZToolKit.GOAP_Raw
     {
         public GameObject Center
         {
-            get { return GetPropertyValue<GameObject>(nameof(WanderActionData.center)); }
+            get { return (Data as WanderActionData).center; }
         }
 
         public float Range
         {
-            get { return GetPropertyValue<float>(nameof(WanderActionData.range)); }
+            get { return (Data as WanderActionData).range; }
         }
 
         public float Radius
         {
-            get { return GetPropertyValue<float>(nameof(WanderActionData.radius)); }
+            get { return (Data as WanderActionData).radius; }
         }
 
         public float Sector
         {
-            get { return GetPropertyValue<float>(nameof(WanderActionData.sector)); }
+            get { return (Data as WanderActionData).sector; }
         }
 
         public LayerMask Layer
         {
-            get { return GetPropertyValue<LayerMask>(nameof(WanderActionData.layer)); }
+            get { return (Data as WanderActionData).layer; }
         }
 
         public WanderAction(WanderActionData data) : base(data)
         {
-            this.RegisterProperty(nameof(WanderActionData.center), new BindableProperty<GameObject>(() => data.center, v => data.center = v));
-            this.RegisterProperty(nameof(WanderActionData.range), new BindableProperty<float>(() => data.range, v => data.range = v));
-            this.RegisterProperty(nameof(WanderActionData.radius), new BindableProperty<float>(() => data.radius, v => data.radius = v));
-            this.RegisterProperty(nameof(WanderActionData.sector), new BindableProperty<float>(() => data.sector, v => data.sector = v));
-            this.RegisterProperty(nameof(WanderActionData.layer), new BindableProperty<LayerMask>(() => data.layer, v => data.layer = v));
         }
-
 
         private NavMeshAgent navMeshAgent;
 

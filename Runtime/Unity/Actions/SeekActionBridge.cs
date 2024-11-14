@@ -67,25 +67,22 @@ namespace CZToolKit.GOAP_Raw
 
         public string TargetMemoryKey
         {
-            get { return GetPropertyValue<string>(nameof(SeekActionData.targetMemoryKey)); }
+            get { return (Data as SeekActionData).targetMemoryKey; }
         }
 
         public float StopDistance
         {
-            get { return GetPropertyValue<float>(nameof(SeekActionData.stopDistance)); }
+            get { return (Data as SeekActionData).stopDistance; }
         }
 
         public float Timeout
         {
-            get { return GetPropertyValue<float>(nameof(SeekActionData.timeout)); }
+            get { return (Data as SeekActionData).timeout; }
         }
 
 
         public SeekAction(SeekActionData data) : base(data)
         {
-            this.RegisterProperty(nameof(SeekActionData.targetMemoryKey), new BindableProperty<string>(() => data.targetMemoryKey, v => data.targetMemoryKey = v));
-            this.RegisterProperty(nameof(SeekActionData.stopDistance), new BindableProperty<float>(() => data.stopDistance, v => data.stopDistance = v));
-            this.RegisterProperty(nameof(SeekActionData.timeout), new BindableProperty<float>(() => data.timeout, v => data.timeout = v));
         }
 
         protected override void OnInitialized()

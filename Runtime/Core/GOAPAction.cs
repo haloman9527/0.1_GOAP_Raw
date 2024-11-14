@@ -44,6 +44,7 @@ namespace CZToolKit.GOAP_Raw
         private Dictionary<string, bool> preconditions;
         private Dictionary<string, bool> effects;
 
+        public GOAPActionData Data { get; private set; }
         /// <summary> 行为的执行成本 </summary>
         public float Cost { get; protected set; }
 
@@ -60,6 +61,7 @@ namespace CZToolKit.GOAP_Raw
 
         public GOAPAction(GOAPActionData data)
         {
+            this.Data = data;
             this.Cost = data.initialCost;
             this.preconditions = new Dictionary<string, bool>();
             this.effects = new Dictionary<string, bool>();
