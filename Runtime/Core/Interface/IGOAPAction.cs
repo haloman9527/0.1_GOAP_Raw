@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace CZToolKit.GOAP_Raw
+namespace Jiange.GOAP_Raw
 {
     public interface IGOAPAction
     {

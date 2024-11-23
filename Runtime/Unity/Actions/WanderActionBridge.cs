@@ -17,13 +17,13 @@
 #endregion
 
 using System;
-using CZToolKit;
+using Jiange;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityRandom = UnityEngine.Random;
 
-namespace CZToolKit.GOAP_Raw
+namespace Jiange.GOAP_Raw
 {
     [AddComponentMenu("GOAP/WanderAction")]
     public class WanderActionBridge : MonoBehaviour, IGOAPActionPrivider

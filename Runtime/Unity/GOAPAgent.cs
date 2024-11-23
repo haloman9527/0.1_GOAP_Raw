@@ -16,16 +16,16 @@
 //
 // #endregion
 //
-// using CZToolKit.Blackboard;
+// using Jiange.Blackboard;
 // using System.Collections.Generic;
 // using System.Linq;
-// using CZToolKit.SimpleFSM;
-// using CZToolKit;
+// using Jiange.SimpleFSM;
+// using Jiange;
 // using UnityEngine;
 // using UnityEngine.Serialization;
 // using UnityEngine.UIElements;
 //
-// namespace CZToolKit.GOAP_Raw
+// namespace Jiange.GOAP_Raw
 // {
 //     [AddComponentMenu("GOAP/GOAP Agent")]
 //     public class UnityGOAPAgent : MonoBehaviour

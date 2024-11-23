@@ -18,10 +18,10 @@
 
 using System;
 using System.Collections.Generic;
-using CZToolKit;
+using Jiange;
 using UnityEngine;
 
-namespace CZToolKit.GOAP_Raw
+namespace Jiange.GOAP_Raw
 {
     [Serializable]
     public abstract class GOAPActionData

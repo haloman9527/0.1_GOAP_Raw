@@ -13,16 +13,16 @@
 //  *
 //  */
 // #endregion
-// using CZToolKitEditor;
+// using JiangeEditor;
 // using UnityEditor;
 // using UnityEngine;
 //
-// namespace CZToolKit.GOAP_Raw.Editors
+// namespace Jiange.GOAP_Raw.Editors
 // {
 //     public class GOAPDebugWindow : BaseEditorWindow
 //     {
 //
-//         [MenuItem("Tools/CZToolKit/GOAP",priority = 1)]
+//         [MenuItem("Tools/Jiange/GOAP",priority = 1)]
 //         public static void Open()
 //         {
 //             GOAPDebugWindow window = GetWindow<GOAPDebugWindow>("Agent Debuger");

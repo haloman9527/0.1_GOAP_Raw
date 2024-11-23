@@ -16,7 +16,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace CZToolKit.GOAP_Raw.Editors
+namespace Jiange.GOAP_Raw.Editors
 {
     [CustomPropertyDrawer(typeof(GOAPState))]
     public class GOAPStateDrawer : PropertyDrawer

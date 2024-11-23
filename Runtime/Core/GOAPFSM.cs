@@ -16,12 +16,12 @@
 
 #endregion
 
-using CZToolKit.SimpleFSM;
 using System;
+using Jiange.SimpleFSM;
 
-namespace CZToolKit.GOAP_Raw
+namespace Jiange.GOAP_Raw
 {
-    public class GOAPFSM : CZToolKit.SimpleFSM.FSM
+    public class GOAPFSM : SimpleFSM.FSM
     {
         public float time;
 
