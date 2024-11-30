@@ -13,16 +13,16 @@
 //  *
 //  */
 // #endregion
-// using JiangeEditor;
+// using MoyoEditor;
 // using UnityEditor;
 // using UnityEngine;
 //
-// namespace Jiange.GOAP_Raw.Editors
+// namespace Moyo.GOAP_Raw.Editors
 // {
 //     public class GOAPDebugWindow : BaseEditorWindow
 //     {
 //
-//         [MenuItem("Tools/Jiange/GOAP",priority = 1)]
+//         [MenuItem("Tools/Moyo/GOAP",priority = 1)]
 //         public static void Open()
 //         {
 //             GOAPDebugWindow window = GetWindow<GOAPDebugWindow>("Agent Debuger");

@@ -15,7 +15,7 @@
 #endregion
 using System;
 
-namespace Jiange.GOAP_Raw
+namespace Moyo.GOAP_Raw
 {
     [Serializable]
     public class GOAPGoal

@@ -1,5 +1,5 @@
 ﻿
-namespace Jiange.GOAP_Raw
+namespace Moyo.GOAP_Raw
 {
     public interface IGOAPActionPrivider
     {

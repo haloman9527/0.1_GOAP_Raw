@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Jiange.Blackboard;
+using Moyo.Blackboard;
 
-namespace Jiange.GOAP_Raw
+namespace Moyo.GOAP_Raw
 {
     public class GOAPAgent : IGOAPAgent
     {

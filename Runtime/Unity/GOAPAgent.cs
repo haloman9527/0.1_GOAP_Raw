@@ -16,16 +16,16 @@
 //
 // #endregion
 //
-// using Jiange.Blackboard;
+// using Moyo.Blackboard;
 // using System.Collections.Generic;
 // using System.Linq;
-// using Jiange.SimpleFSM;
-// using Jiange;
+// using Moyo.SimpleFSM;
+// using Moyo;
 // using UnityEngine;
 // using UnityEngine.Serialization;
 // using UnityEngine.UIElements;
 //
-// namespace Jiange.GOAP_Raw
+// namespace Moyo.GOAP_Raw
 // {
 //     [AddComponentMenu("GOAP/GOAP Agent")]
 //     public class UnityGOAPAgent : MonoBehaviour

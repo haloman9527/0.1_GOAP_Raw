@@ -17,13 +17,13 @@
 #endregion
 
 using System;
-using Jiange;
+using Moyo;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 using UnityRandom = UnityEngine.Random;
 
-namespace Jiange.GOAP_Raw
+namespace Moyo.GOAP_Raw
 {
     [AddComponentMenu("GOAP/WanderAction")]
     public class WanderActionBridge : MonoBehaviour, IGOAPActionPrivider

@@ -14,7 +14,7 @@
  */
 #endregion
 
-namespace Jiange.GOAP_Raw
+namespace Moyo.GOAP_Raw
 {
     public enum UpdateMode
     {

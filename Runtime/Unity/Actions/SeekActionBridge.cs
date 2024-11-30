@@ -17,12 +17,12 @@
 #endregion
 
 using System;
-using Jiange;
+using Moyo;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-namespace Jiange.GOAP_Raw
+namespace Moyo.GOAP_Raw
 {
     //[NodeTooltip("追逐敌人到一定距离后停下")]
     [AddComponentMenu("GOAP/SeekAction")]

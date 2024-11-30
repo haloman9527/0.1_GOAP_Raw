@@ -16,7 +16,7 @@
 using System;
 using UnityEngine.Serialization;
 
-namespace Jiange.GOAP_Raw
+namespace Moyo.GOAP_Raw
 {
     [Serializable]
     public class GOAPState
