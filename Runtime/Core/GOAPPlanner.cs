@@ -207,7 +207,7 @@ namespace Moyo.GOAP_Raw
         }
     }
 
-    [CustomPool(typeof(GOAPNode))]
+    [ObjectPool(typeof(GOAPNode))]
     public class GOAPNodePool : BaseObjectPool<GOAPNode>
     {
         protected override GOAPNode Create()
@@ -225,7 +225,7 @@ namespace Moyo.GOAP_Raw
         }
     }
 
-    [CustomPool(typeof(Stack<GOAPAction>))]
+    [ObjectPool(typeof(Stack<GOAPAction>))]
     public class GOAPActionStackPool : BaseObjectPool<Stack<GOAPAction>>
     {
         protected override Stack<GOAPAction> Create()
