@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Moyo.Blackboard;
+using Moyo;
 
 namespace Moyo.GOAP_Raw
 {
