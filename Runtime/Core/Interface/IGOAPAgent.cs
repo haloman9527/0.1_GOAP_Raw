@@ -19,7 +19,7 @@ namespace Moyo.GOAP_Raw
 
         Blackboard<string> Memory { get; }
         
-        Events<string> Events { get; }
+        EventService<string> Events { get; }
 
         void Update();
     }

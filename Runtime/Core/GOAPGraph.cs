@@ -13,7 +13,7 @@ namespace Moyo.GOAP_Raw
         /// <returns>是否找到计划</returns>
         private GOAPNode BuildGraph(IGOAPAgent agent, IGOAPGoal goal, int maxDepth)
         {
-            var root = ObjectPools.Spawn<GOAPNode>();
+            var root = ObjectPoolService.Spawn<GOAPNode>();
             root.Init(null, 0, agent.States, null);
             if (maxDepth < 1)
                 return root;
@@ -33,7 +33,7 @@ namespace Moyo.GOAP_Raw
                     }
 
                     // 生成动作完成的节点链，成本累加
-                    var node = ObjectPools.Spawn<GOAPNode>();
+                    var node = ObjectPoolService.Spawn<GOAPNode>();
                     node.Init(parent, parent.runningCost + action.Cost, parent.state, action);
                     foreach (var effect in action.Effects)
                     {

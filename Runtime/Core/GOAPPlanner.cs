@@ -35,7 +35,7 @@ namespace Moyo.GOAP_Raw
                 return true;
             }
 
-            var enumrateBuffer = ObjectPools.Spawn<List<GOAPNode>>();
+            var enumrateBuffer = ObjectPoolService.Spawn<List<GOAPNode>>();
             foreach (var action in agent.Actions)
             {
                 action.EvaluateCost();
@@ -65,7 +65,7 @@ namespace Moyo.GOAP_Raw
             }
 
             // 向上遍历并添加行为到栈中，直至根节点，因为从后向前遍历
-            var goapActionStack = ObjectPools.Spawn<Stack<IGOAPAction>>();
+            var goapActionStack = ObjectPoolService.Spawn<Stack<IGOAPAction>>();
             while (cheapestNode != null && cheapestNode != root)
             {
                 goapActionStack.Push(cheapestNode.action);
@@ -79,13 +79,13 @@ namespace Moyo.GOAP_Raw
             }
 
             // 回收栈
-            ObjectPools.Recycle(goapActionStack);
+            ObjectPoolService.Recycle(goapActionStack);
 
             // 回收节点
             for (int i = 0; i < enumrateBuffer.Count; i++)
             {
                 var node = enumrateBuffer[i];
-                ObjectPools.Recycle(node);
+                ObjectPoolService.Recycle(node);
             }
 
             return true;
@@ -97,7 +97,7 @@ namespace Moyo.GOAP_Raw
         /// <returns>是否找到计划</returns>
         private static GOAPNode BuildGraph(IGOAPAgent agent, IGOAPGoal goal, int maxDepth)
         {
-            var root = ObjectPools.Spawn<GOAPNode>();
+            var root = ObjectPoolService.Spawn<GOAPNode>();
             root.Init(null, 0, agent.States, null);
             if (maxDepth < 1)
             {
@@ -128,7 +128,7 @@ namespace Moyo.GOAP_Raw
                     }
 
                     // 生成动作完成的节点链，成本累加
-                    var node = ObjectPools.Spawn<GOAPNode>();
+                    var node = ObjectPoolService.Spawn<GOAPNode>();
                     node.Init(parent, parent.runningCost + action.Cost, parent.state, action);
                     foreach (var effect in action.Effects)
                     {

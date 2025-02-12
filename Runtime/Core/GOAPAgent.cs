@@ -20,7 +20,7 @@ namespace Moyo.GOAP_Raw
 
         public Blackboard<string> Memory { get; } = new Blackboard<string>();
 
-        public Events<string> Events { get; } = new Events<string>();
+        public EventService<string> Events { get; } = new EventService<string>();
 
         public Queue<IGOAPAction> Plan { get; } = new Queue<IGOAPAction>();
 
