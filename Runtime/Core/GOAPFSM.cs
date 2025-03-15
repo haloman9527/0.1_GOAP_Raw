@@ -17,9 +17,9 @@
 #endregion
 
 using System;
-using Moyo.SimpleFSM;
+using Atom.SimpleFSM;
 
-namespace Moyo.GOAP_Raw
+namespace Atom.GOAP_Raw
 {
     public class GOAPFSM : SimpleFSM.FSM
     {

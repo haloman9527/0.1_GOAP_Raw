@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Moyo;
+using Atom;
 
-namespace Moyo.GOAP_Raw
+namespace Atom.GOAP_Raw
 {
     public interface IGOAPAgent
     {

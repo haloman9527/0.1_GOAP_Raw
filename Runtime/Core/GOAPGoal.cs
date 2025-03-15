@@ -15,7 +15,7 @@
 #endregion
 using System;
 
-namespace Moyo.GOAP_Raw
+namespace Atom.GOAP_Raw
 {
     [Serializable]
     public class GOAPGoal

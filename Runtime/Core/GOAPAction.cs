@@ -18,10 +18,10 @@
 
 using System;
 using System.Collections.Generic;
-using Moyo;
+using Atom;
 using UnityEngine;
 
-namespace Moyo.GOAP_Raw
+namespace Atom.GOAP_Raw
 {
     [Serializable]
     public abstract class GOAPActionData

@@ -16,16 +16,16 @@
 //
 // #endregion
 //
-// using Moyo.Blackboard;
+// using Atom.Blackboard;
 // using System.Collections.Generic;
 // using System.Linq;
-// using Moyo.SimpleFSM;
-// using Moyo;
+// using Atom.SimpleFSM;
+// using Atom;
 // using UnityEngine;
 // using UnityEngine.Serialization;
 // using UnityEngine.UIElements;
 //
-// namespace Moyo.GOAP_Raw
+// namespace Atom.GOAP_Raw
 // {
 //     [AddComponentMenu("GOAP/GOAP Agent")]
 //     public class UnityGOAPAgent : MonoBehaviour

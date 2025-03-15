@@ -13,16 +13,16 @@
 //  *
 //  */
 // #endregion
-// using MoyoEditor;
+// using AtomEditor;
 // using UnityEditor;
 // using UnityEngine;
 //
-// namespace Moyo.GOAP_Raw.Editors
+// namespace Atom.GOAP_Raw.Editors
 // {
 //     public class GOAPDebugWindow : BaseEditorWindow
 //     {
 //
-//         [MenuItem("Tools/Moyo/GOAP",priority = 1)]
+//         [MenuItem("Tools/Atom/GOAP",priority = 1)]
 //         public static void Open()
 //         {
 //             GOAPDebugWindow window = GetWindow<GOAPDebugWindow>("Agent Debuger");

@@ -16,7 +16,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Moyo.GOAP_Raw.Editors
+namespace Atom.GOAP_Raw.Editors
 {
     [CustomPropertyDrawer(typeof(GOAPGoal))]
     public class GOAPGoalDrawer : PropertyDrawer
