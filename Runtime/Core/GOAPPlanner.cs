@@ -20,8 +20,13 @@ using System.Collections.Generic;
 
 namespace Atom.GOAP_Raw
 {
-    public static class GOAPPlanner
+    public static partial class GOAPPlanner
     {
+        static GOAPPlanner()
+        {
+            ObjectPoolManager.RegisterPool(new GOAPNodePool());
+        }
+
         /// <summary> 定制最优计划 </summary>
         /// <param name="agent"></param>
         /// <param name="goal"> 目标状态，想要达到的状态</param>
@@ -35,7 +40,7 @@ namespace Atom.GOAP_Raw
                 return true;
             }
 
-            var enumrateBuffer = ObjectPoolService.Spawn<List<GOAPNode>>();
+            var enumrateBuffer = ObjectPoolManager.Spawn<List<GOAPNode>>();
             foreach (var action in agent.Actions)
             {
                 action.EvaluateCost();
@@ -65,7 +70,7 @@ namespace Atom.GOAP_Raw
             }
 
             // 向上遍历并添加行为到栈中，直至根节点，因为从后向前遍历
-            var goapActionStack = ObjectPoolService.Spawn<Stack<IGOAPAction>>();
+            var goapActionStack = ObjectPoolManager.Spawn<Stack<IGOAPAction>>();
             while (cheapestNode != null && cheapestNode != root)
             {
                 goapActionStack.Push(cheapestNode.action);
@@ -79,13 +84,13 @@ namespace Atom.GOAP_Raw
             }
 
             // 回收栈
-            ObjectPoolService.Recycle(goapActionStack);
+            ObjectPoolManager.Recycle(goapActionStack);
 
             // 回收节点
             for (int i = 0; i < enumrateBuffer.Count; i++)
             {
                 var node = enumrateBuffer[i];
-                ObjectPoolService.Recycle(node);
+                ObjectPoolManager.Recycle(node);
             }
 
             return true;
@@ -97,7 +102,7 @@ namespace Atom.GOAP_Raw
         /// <returns>是否找到计划</returns>
         private static GOAPNode BuildGraph(IGOAPAgent agent, IGOAPGoal goal, int maxDepth)
         {
-            var root = ObjectPoolService.Spawn<GOAPNode>();
+            var root = ObjectPoolManager.Spawn<GOAPNode>();
             root.Init(null, 0, agent.States, null);
             if (maxDepth < 1)
             {
@@ -128,7 +133,7 @@ namespace Atom.GOAP_Raw
                     }
 
                     // 生成动作完成的节点链，成本累加
-                    var node = ObjectPoolService.Spawn<GOAPNode>();
+                    var node = ObjectPoolManager.Spawn<GOAPNode>();
                     node.Init(parent, parent.runningCost + action.Cost, parent.state, action);
                     foreach (var effect in action.Effects)
                     {
@@ -145,97 +150,85 @@ namespace Atom.GOAP_Raw
         }
     }
 
-    public class GOAPNode
+    public static partial class GOAPPlanner
     {
-        public GOAPNode parent;
-
-        public List<GOAPNode> children = new List<GOAPNode>();
-
-        /// <summary> 运行到此节点的成本 </summary>
-        public float runningCost;
-
-        /// <summary> 此节点代表的行为 </summary>
-        public IGOAPAction action;
-
-        /// <summary> 模拟运行到此节点时的状态 </summary>
-        public Dictionary<string, bool> state = new Dictionary<string, bool>();
-
-        public void Init(GOAPNode parent, float runningCost, Dictionary<string, bool> state, IGOAPAction action)
+        public class GOAPNode
         {
-            this.parent = parent;
-            this.runningCost = runningCost;
-            foreach (var pair in state)
+            public GOAPNode parent;
+
+            public List<GOAPNode> children = new List<GOAPNode>();
+
+            /// <summary> 运行到此节点的成本 </summary>
+            public float runningCost;
+
+            /// <summary> 此节点代表的行为 </summary>
+            public IGOAPAction action;
+
+            /// <summary> 模拟运行到此节点时的状态 </summary>
+            public Dictionary<string, bool> state = new Dictionary<string, bool>();
+
+            public void Init(GOAPNode parent, float runningCost, Dictionary<string, bool> state, IGOAPAction action)
             {
-                this.state[pair.Key] = pair.Value;
+                this.parent = parent;
+                this.runningCost = runningCost;
+                foreach (var pair in state)
+                {
+                    this.state[pair.Key] = pair.Value;
+                }
+
+                this.action = action;
+                parent?.children.Add(this);
             }
 
-            this.action = action;
-            parent?.children.Add(this);
-        }
-
-        public void DFS(List<GOAPNode> buffer)
-        {
-            buffer.Clear();
-            InnerDFS(this);
-
-            void InnerDFS(GOAPNode p)
+            public void DFS(List<GOAPNode> buffer)
             {
-                buffer.Add(p);
+                buffer.Clear();
+                InnerDFS(this);
 
-                for (int i = 0; i < p.children.Count; i++)
+                void InnerDFS(GOAPNode p)
                 {
-                    var c = p.children[i];
-                    InnerDFS(c);
+                    buffer.Add(p);
+
+                    for (int i = 0; i < p.children.Count; i++)
+                    {
+                        var c = p.children[i];
+                        InnerDFS(c);
+                    }
+                }
+            }
+
+            public void BFS(List<GOAPNode> buffer)
+            {
+                InnerBFS(this);
+
+                void InnerBFS(GOAPNode p)
+                {
+                    buffer.Add(p);
+
+                    for (int i = 0; i < p.children.Count; i++)
+                    {
+                        var c = p.children[i];
+                        InnerBFS(c);
+                    }
                 }
             }
         }
 
-        public void BFS(List<GOAPNode> buffer)
+        public class GOAPNodePool : ObjectPoolBase<GOAPNode>
         {
-            InnerBFS(this);
-
-            void InnerBFS(GOAPNode p)
+            protected override GOAPNode Create()
             {
-                buffer.Add(p);
-
-                for (int i = 0; i < p.children.Count; i++)
-                {
-                    var c = p.children[i];
-                    InnerBFS(c);
-                }
+                return new GOAPNode();
             }
-        }
-    }
 
-    [ObjectPool(typeof(GOAPNode))]
-    public class GOAPNodePool : ObjectPool<GOAPNode>
-    {
-        protected override GOAPNode Create()
-        {
-            return new GOAPNode();
-        }
-
-        protected override void OnRecycle(GOAPNode unit)
-        {
-            unit.parent = null;
-            unit.children.Clear();
-            unit.runningCost = 0;
-            unit.state.Clear();
-            unit.action = null;
-        }
-    }
-
-    [ObjectPool(typeof(Stack<GOAPAction>))]
-    public class GOAPActionStackPool : ObjectPool<Stack<GOAPAction>>
-    {
-        protected override Stack<GOAPAction> Create()
-        {
-            return new Stack<GOAPAction>(8);
-        }
-
-        protected override void OnRecycle(Stack<GOAPAction> unit)
-        {
-            unit.Clear();
+            protected override void OnRecycle(GOAPNode unit)
+            {
+                unit.parent = null;
+                unit.children.Clear();
+                unit.runningCost = 0;
+                unit.state.Clear();
+                unit.action = null;
+            }
         }
     }
 }
