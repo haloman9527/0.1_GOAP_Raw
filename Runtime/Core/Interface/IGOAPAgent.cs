@@ -19,7 +19,7 @@ namespace Atom.GOAP_Raw
 
         Blackboard<string> Memory { get; }
         
-        EventService<string> Events { get; }
+        EventStation<string> Events { get; }
 
         void Update();
     }

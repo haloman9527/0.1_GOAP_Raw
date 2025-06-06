@@ -20,7 +20,7 @@ namespace Atom.GOAP_Raw
 
         public Blackboard<string> Memory { get; } = new Blackboard<string>();
 
-        public EventService<string> Events { get; } = new EventService<string>();
+        public EventStation<string> Events { get; } = new EventStation<string>();
 
         public Queue<IGOAPAction> Plan { get; } = new Queue<IGOAPAction>();
 
